@@ -47,12 +47,14 @@ public class WinFailUI : MonoBehaviour
 
     void GoHome()
     {
+        // Bank the payout from this mission before returning to HQ
         RunData.AddPayout(RunData.LastResult?.payout ?? 0);
         SceneLoader.Instance?.LoadHome();
     }
 
     void Retreat()
     {
+        // Go home without banking any payout (player chose to retreat after failing)
         SceneLoader.Instance?.LoadHome();
     }
 

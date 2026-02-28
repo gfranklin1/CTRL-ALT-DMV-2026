@@ -42,6 +42,8 @@ public class MissionBoardUI : MonoBehaviour
             earningsText.text = $"TOTAL EARNINGS: ${RunData.TotalEarnings}";
     }
 
+    // Destroys old cards and instantiates fresh ones from the missions array.
+    // Each card is a prefab with a MissionCard component that wires up its own UI.
     void PopulateCards(MissionData[] missions)
     {
         if (cardContainer == null || missionCardPrefab == null) return;

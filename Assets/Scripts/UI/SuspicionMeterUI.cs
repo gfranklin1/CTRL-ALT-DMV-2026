@@ -20,13 +20,13 @@ public class SuspicionMeterUI : MonoBehaviour
         float s = SuspicionSystem.Instance.Suspicion;
         fillBar.fillAmount = s;
 
-        // Dynamic color
+        // Lerp the bar color through three stages: safe (green) → warning (orange) → danger (red)
         if (s < 0.5f)
             fillBar.color = Color.Lerp(safeColor, warningColor, s / 0.5f);
         else
             fillBar.color = Color.Lerp(warningColor, dangerColor, (s - 0.5f) / 0.5f);
 
-        // Pulse at high suspicion
+        // Pulse the bar's Y scale with a sine wave when suspicion is critically high
         if (s > pulseThreshold)
         {
             float pulse = 1f + Mathf.Sin(Time.time * pulseSpeed) * pulseAmount;

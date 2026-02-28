@@ -5,6 +5,8 @@ public class WaypointPath : MonoBehaviour
     [SerializeField] Transform[] waypoints;
     int currentIndex;
 
+    // Returns the next waypoint in sequence, looping back to the start.
+    // Used by CelebrityController for patrol routes.
     public Transform GetNext()
     {
         if (waypoints == null || waypoints.Length == 0) return transform;
@@ -13,6 +15,7 @@ public class WaypointPath : MonoBehaviour
         return wp;
     }
 
+    // Draws the patrol path in the Scene view for easier level design.
     void OnDrawGizmos()
     {
         if (waypoints == null) return;

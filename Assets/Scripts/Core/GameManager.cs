@@ -11,6 +11,8 @@ public enum GameState
     Fail
 }
 
+// Central state machine for the game. Only exists in level scenes (not HQ).
+// Scripts fall back to GameState.Playing when Instance is null.
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
@@ -31,6 +33,9 @@ public class GameManager : MonoBehaviour
 
     void OnDestroy()
     {
+        // Clear so other scripts don't call into a destroyed object.
+        // Without this, the stale Instance keeps its last GameState (e.g. Fail),
+        // which blocks player movement when returning to the HQ scene.
         if (Instance == this) Instance = null;
     }
 
