@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float crouchHeight = 1f;
     [SerializeField] float standHeight = 2f;
     [SerializeField] float gravity = -9.81f;
+    [SerializeField] float jumpHeight = 1.2f;
 
     CharacterController cc;
     InputSystem_Actions input;
@@ -42,6 +43,10 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
+        // Ground check before processing input
+        if (cc.isGrounded && velocity.y < 0f)
+            velocity.y = -2f;
+
         Vector2 moveInput = input.Player.Move.ReadValue<Vector2>();
         IsSprinting = input.Player.Sprint.IsPressed() && !IsCrouching;
 
@@ -52,12 +57,14 @@ public class PlayerController : MonoBehaviour
         if (state == GameState.CameraRaised) speed *= 0.5f;
 
         Vector3 move = transform.right * moveInput.x + transform.forward * moveInput.y;
-        cc.Move(move * speed * Time.deltaTime);
 
-        if (cc.isGrounded && velocity.y < 0f)
-            velocity.y = -2f;
+        if (input.Player.Jump.WasPressedThisFrame() && cc.isGrounded && !IsCrouching)
+            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+
         velocity.y += gravity * Time.deltaTime;
-        cc.Move(velocity * Time.deltaTime);
+
+        // Single Move call: horizontal + vertical combined to avoid double collision jitter
+        cc.Move((move * speed + velocity) * Time.deltaTime);
     }
 
     void ToggleCrouch()

@@ -1,14 +1,14 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class WinFailUI : MonoBehaviour
 {
     [SerializeField] GameObject winPanel;
     [SerializeField] GameObject failPanel;
     [SerializeField] Text winPayoutText;
-    [SerializeField] Button winPlayAgainButton;
-    [SerializeField] Button failPlayAgainButton;
+    [SerializeField] Button winGoHomeButton;
+    [SerializeField] Button failRetryButton;
+    [SerializeField] Button failRetreatButton;
 
     void Start()
     {
@@ -16,8 +16,9 @@ public class WinFailUI : MonoBehaviour
         if (winPanel != null)  winPanel.SetActive(false);
         if (failPanel != null) failPanel.SetActive(false);
 
-        if (winPlayAgainButton != null)  winPlayAgainButton.onClick.AddListener(PlayAgain);
-        if (failPlayAgainButton != null) failPlayAgainButton.onClick.AddListener(PlayAgain);
+        if (winGoHomeButton != null)   winGoHomeButton.onClick.AddListener(GoHome);
+        if (failRetryButton != null)   failRetryButton.onClick.AddListener(Retry);
+        if (failRetreatButton != null) failRetreatButton.onClick.AddListener(Retreat);
     }
 
     void OnDestroy() => GameManager.OnStateChanged -= OnStateChanged;
@@ -26,6 +27,9 @@ public class WinFailUI : MonoBehaviour
     {
         if (state == GameState.Win)
         {
+            int payout = RunData.LastResult?.payout ?? 0;
+            if (winPayoutText != null)
+                winPayoutText.text = $"PAYOUT: ${payout}";
             if (winPanel != null) winPanel.SetActive(true);
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
@@ -38,8 +42,19 @@ public class WinFailUI : MonoBehaviour
         }
     }
 
-    void PlayAgain()
+    void GoHome()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        RunData.AddPayout(RunData.LastResult?.payout ?? 0);
+        SceneLoader.Instance?.LoadHome();
+    }
+
+    void Retreat()
+    {
+        SceneLoader.Instance?.LoadHome();
+    }
+
+    void Retry()
+    {
+        SceneLoader.Instance?.ReloadCurrent();
     }
 }
