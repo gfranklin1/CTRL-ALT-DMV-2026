@@ -63,6 +63,29 @@ public class PhotoCamera : MonoBehaviour
 
         PhotoResult result = scorer != null ? scorer.ScoreShot(cam) : new PhotoResult { gradeLabel = "USELESS" };
         RunData.LastResult = result;
+
+        // Capture camera view to texture (no UI overlay)
+        int w = 512, h = 384;
+        var rt = new RenderTexture(w, h, 24);
+        cam.targetTexture = rt;
+        cam.Render();
+        RenderTexture.active = rt;
+        var tex = new Texture2D(w, h, TextureFormat.RGB24, false);
+        tex.ReadPixels(new Rect(0, 0, w, h), 0, 0);
+        tex.Apply();
+        cam.targetTexture = null;
+        RenderTexture.active = null;
+        rt.Release();
+
+        PinboardData.Add(tex, new PinboardEntry
+        {
+            grade = result.gradeLabel,
+            payout = result.payout,
+            missionTitle = RunData.LastMissionTitle ?? "",
+            rotation = Random.Range(-15f, 15f)
+        });
+        Destroy(tex);
+
         PhotoResultUI.Instance?.Show(result);
         HUD.Instance?.ShowFlash();
 
