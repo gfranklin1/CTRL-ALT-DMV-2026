@@ -53,6 +53,8 @@ public class CelebrityController : MonoBehaviour
 
     public void SetTargetAction(CelebrityAction action) => targetAction = action;
 
+    // Switches the celebrity to a new behavior state.
+    // Stops all running coroutines first to prevent overlapping routines.
     void TransitionToState(CelebState newState)
     {
         StopAllCoroutines();
@@ -136,7 +138,7 @@ public class CelebrityController : MonoBehaviour
         GameManager.Instance?.TransitionTo(GameState.Fail);
     }
 
-    // Called by DetectionZone
+    // Called by DetectionZone when the player enters/exits the celebrity's awareness radius
     public void SetSuspicious(bool suspicious)
     {
         if (state == CelebState.Fleeing) return;
@@ -155,6 +157,7 @@ public class CelebrityController : MonoBehaviour
 
     void Update()
     {
+        // When suspicious, slowly rotate to face the player (gives a "staring you down" effect)
         if (state == CelebState.Suspicious && player != null)
         {
             Vector3 dir = (player.position - transform.position).normalized;
