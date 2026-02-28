@@ -16,13 +16,16 @@ public class SceneLoader : MonoBehaviour
 
     void Awake()
     {
+        // singleton
+        // If a duplicate already exists (e.g. from a scene that also has one), destroy this one.
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
         }
         Instance = this;
-        transform.SetParent(null); // Must be a root object for DontDestroyOnLoad
+        // DontDestroyOnLoad needs a root-level GameObject, so unparent it
+        transform.SetParent(null);
         DontDestroyOnLoad(gameObject);
     }
 
@@ -34,8 +37,8 @@ public class SceneLoader : MonoBehaviour
 
     public void LoadScene(string sceneName)
     {
-        if (this == null) return; // guard against destroyed-but-still-referenced singleton
-        if (isLoading) return;
+        if (this == null) return; // Unity overloads == null for destroyed objects
+        if (isLoading) return;    // Prevent overlapping scene loads
         isLoading = true;
         StartCoroutine(LoadWithFade(sceneName));
     }
@@ -68,14 +71,16 @@ public class SceneLoader : MonoBehaviour
     IEnumerator Fade(float from, float to)
     {
         float t = 0f;
+        // Block raycasts during fade to prevent UI clicks mid-transition
         fadeCanvasGroup.blocksRaycasts = true;
         while (t < fadeDuration)
         {
-            t += Time.unscaledDeltaTime;
+            t += Time.unscaledDeltaTime; // unscaled so fade works even if timeScale is 0
             fadeCanvasGroup.alpha = Mathf.Lerp(from, to, t / fadeDuration);
             yield return null;
         }
         fadeCanvasGroup.alpha = to;
+        // Only keep blocking raycasts if we faded TO opaque (screen is covered)
         fadeCanvasGroup.blocksRaycasts = to > 0.5f;
     }
 }

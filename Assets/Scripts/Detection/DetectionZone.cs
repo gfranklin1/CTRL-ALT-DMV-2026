@@ -59,14 +59,17 @@ public class DetectionZone : MonoBehaviour
         Camera cam = Camera.main;
         if (cam == null) return false;
 
-        // Dot product: is the camera aimed toward the celebrity?
+        // check if the camera aimed toward the celebrity
         Vector3 camToCeleb = (transform.position - cam.transform.position).normalized;
         float dot = Vector3.Dot(cam.transform.forward, camToCeleb);
         if (dot < cameraDotThreshold) return false;
 
         // Line-of-sight check
         float dist = Vector3.Distance(transform.position, playerTransform.position);
-        if (Physics.Raycast(transform.position, (playerTransform.position - transform.position).normalized, dist - 0.2f, occlusionMask))
+        if (Physics.Raycast(transform.position, 
+                            (playerTransform.position - transform.position).normalized, 
+                            dist - 0.2f, occlusionMask)
+            )
             return false;
 
         return true;

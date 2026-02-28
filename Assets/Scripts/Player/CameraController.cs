@@ -60,8 +60,10 @@ public class CameraController : MonoBehaviour
 
         Vector2 rawLook = input.Player.Look.ReadValue<Vector2>() * mouseSensitivity;
 
-        // Smooth the mouse input to eliminate frame-to-frame spikes
-        float t = 1f - lookSmoothing; // 0 = full smoothing, 1 = no smoothing
+        // Lerp between the previous frame's look value and the new raw input.
+        // lookSmoothing=0 → t=1 → instant (no smoothing)
+        // lookSmoothing=1 → t=0 → maximum smoothing (more input lag)
+        float t = 1f - lookSmoothing;
         smoothedLook = Vector2.Lerp(smoothedLook, rawLook, t);
 
         yaw += smoothedLook.x;

@@ -52,7 +52,7 @@ public class PhotoCamera : MonoBehaviour
             TakePhoto();
         }
 
-        // FOV lerp
+        // FOV lerp for raising/lowering camera
         float targetFOV = CameraIsRaised ? raisedFOV : normalFOV;
         cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, targetFOV, fovLerpSpeed * Time.deltaTime);
     }
@@ -93,6 +93,8 @@ public class PhotoCamera : MonoBehaviour
         StartCoroutine(FinishPhoto());
     }
 
+    // Waits 2 seconds after taking a photo, then transitions to Escaping.
+    // The state check prevents double-transitions if PhotoResultUI already advanced.
     IEnumerator FinishPhoto()
     {
         yield return new WaitForSeconds(2f);

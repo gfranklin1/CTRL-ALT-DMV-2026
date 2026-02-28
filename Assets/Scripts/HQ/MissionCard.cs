@@ -8,6 +8,8 @@ public class MissionCard : MonoBehaviour
     [SerializeField] Text payoutText;
     [SerializeField] Button deployButton;
 
+    // Called by MissionBoardUI when this card is spawned.
+    // Populates the UI text and wires the Deploy button to load the mission's scene.
     public void Init(MissionData data)
     {
         if (titleText != null)  titleText.text = data.missionTitle.ToUpper();
