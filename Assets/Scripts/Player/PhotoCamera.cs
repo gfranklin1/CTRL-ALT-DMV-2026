@@ -62,6 +62,7 @@ public class PhotoCamera : MonoBehaviour
         CameraIsRaised = false;
 
         PhotoResult result = scorer != null ? scorer.ScoreShot(cam) : new PhotoResult { gradeLabel = "USELESS" };
+        RunData.LastResult = result;
         PhotoResultUI.Instance?.Show(result);
         HUD.Instance?.ShowFlash();
 

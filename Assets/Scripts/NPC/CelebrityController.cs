@@ -26,6 +26,7 @@ public class CelebrityController : MonoBehaviour
     [SerializeField] Color normalColor = Color.yellow;
     [SerializeField] Color suspiciousColor = Color.red;
     [SerializeField] Color fleeingColor = new Color(0.6f, 0f, 0f);
+    [SerializeField] GameObject actionIndicator;
 
     NavMeshAgent agent;
     CelebState state = CelebState.Patrolling;
@@ -42,6 +43,7 @@ public class CelebrityController : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         baseScale = transform.localScale;
+        if (actionIndicator != null) actionIndicator.SetActive(false);
     }
 
     void Start()
@@ -59,6 +61,8 @@ public class CelebrityController : MonoBehaviour
     {
         StopAllCoroutines();
         state = newState;
+        if (actionIndicator != null)
+            actionIndicator.SetActive(newState == CelebState.PerformingAction);
 
         switch (newState)
         {
@@ -157,7 +161,10 @@ public class CelebrityController : MonoBehaviour
 
     void Update()
     {
-        // When suspicious, slowly rotate to face the player (gives a "staring you down" effect)
+        // Keep indicator at a fixed world-space offset so it is unaffected by scale pulse
+        if (actionIndicator != null && actionIndicator.activeSelf)
+            actionIndicator.transform.position = transform.position + new Vector3(0f, 2.2f, 0f);
+
         if (state == CelebState.Suspicious && player != null)
         {
             Vector3 dir = (player.position - transform.position).normalized;

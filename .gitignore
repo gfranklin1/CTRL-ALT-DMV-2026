@@ -107,3 +107,5 @@ InitTestScene*.unity*
 /SKILLS/
 .claude/
 .mcp.json
+CLAUDE.md
+claude.md
