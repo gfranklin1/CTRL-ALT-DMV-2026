@@ -18,6 +18,8 @@ public static class PinboardData
 
     public static string SaveDir => Application.persistentDataPath + "/Pinboard/";
 
+    // Saves the photo texture as a PNG and its metadata as JSON to persistent storage.
+    // File names are sequential (photo_0, photo_1, etc.) so Load() can find them.
     public static void Add(Texture2D tex, PinboardEntry entry)
     {
         if (!_loaded) Load();
@@ -37,6 +39,8 @@ public static class PinboardData
         _entries.Add(entry);
     }
 
+    // Reads all saved photos from disk by iterating photo_0.json, photo_1.json, etc.
+    // Stops at the first missing index, so files must be sequential with no gaps.
     public static void Load()
     {
         _loaded = true;

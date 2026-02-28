@@ -21,6 +21,9 @@ public class Pinboard : MonoBehaviour
         PinboardData.Load();
         List<PinboardEntry> entries = PinboardData.Entries;
 
+        // Lay out photos in a grid: col/row calculated from index using modulo/division.
+        // TransformPoint converts the local offset to world space so the grid
+        // follows the pinboard's position and rotation in the scene.
         for (int i = 0; i < entries.Count; i++)
         {
             if (pinnedPhotoPrefab == null) break;
