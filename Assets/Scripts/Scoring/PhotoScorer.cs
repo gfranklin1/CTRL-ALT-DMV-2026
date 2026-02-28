@@ -20,7 +20,8 @@ public class PhotoScorer : MonoBehaviour
             return result;
         }
 
-        // 1. Frustum check — is the celebrity visible in the frame?
+        // 1. Frustum check — is the celebrity visible on screen?
+        // WorldToViewportPoint returns (0-1, 0-1, depth). z > 0 means in front of camera.
         Vector3 vp = cam.WorldToViewportPoint(celebrity.transform.position);
         result.celebInFrame = vp.z > 0f && vp.x > 0f && vp.x < 1f && vp.y > 0f && vp.y < 1f;
 
@@ -32,7 +33,8 @@ public class PhotoScorer : MonoBehaviour
             return result;
         }
 
-        // 2. Line-of-sight check
+        // 2. Line-of-sight raycast — make sure nothing is blocking the view.
+        // We subtract 0.5m from the distance so the ray doesn't hit the celebrity's own collider.
         Vector3 dir = (celebrity.transform.position - cam.transform.position).normalized;
         float dist = Vector3.Distance(cam.transform.position, celebrity.transform.position);
         if (Physics.Raycast(cam.transform.position, dir, dist - 0.5f))
@@ -57,13 +59,15 @@ public class PhotoScorer : MonoBehaviour
             result.distanceScore = Mathf.Lerp(100f, 0f, Mathf.InverseLerp(8f, 20f, dist));
         result.distanceScore = Mathf.Clamp(result.distanceScore, 0f, 100f);
 
-        // 5. Center-of-frame score
+        // 5. Center-of-frame score — how close the celebrity is to the center of the photo.
+        // Convert viewport coords (0-1) to a 0-1 distance from center, where 0 = dead center.
         float cx = Mathf.Abs(vp.x - 0.5f) * 2f;
         float cy = Mathf.Abs(vp.y - 0.5f) * 2f;
         float centerDist = Mathf.Sqrt(cx * cx + cy * cy);
         result.centerScore = Mathf.Clamp01(1f - centerDist) * 100f;
 
-        // Total
+        // Final score is the average of distance and center scores.
+        // If the player didn't capture the correct action, penalize heavily (30% of score).
         result.totalScore = (result.distanceScore + result.centerScore) / 2f;
         if (!result.targetActionMatch) result.totalScore *= 0.3f;
 
@@ -72,10 +76,18 @@ public class PhotoScorer : MonoBehaviour
         result.payout = Mathf.RoundToInt(result.totalScore / 100f * maxPayout);
 
         // Grade
-        if (result.totalScore >= 80f)      result.gradeLabel = "MONEY SHOT";
-        else if (result.totalScore >= 50f) result.gradeLabel = "PUBLISHABLE";
-        else if (result.totalScore >= 20f) result.gradeLabel = "WEAK";
-        else                               result.gradeLabel = "USELESS";
+        if (result.totalScore >= 80f) {
+            result.gradeLabel = "MONEY SHOT";
+        }
+        else if (result.totalScore >= 50f) {
+            result.gradeLabel = "PUBLISHABLE";
+        } 
+        else if (result.totalScore >= 20f) {
+            result.gradeLabel = "WEAK";
+        }
+        else {
+            result.gradeLabel = "USELESS";
+        }
 
         Debug.Log($"[PhotoScorer] {result.gradeLabel} | Score: {result.totalScore:F0} | ActionMatch: {result.targetActionMatch} | Dist: {dist:F1}m | Center: {result.centerScore:F0}");
 

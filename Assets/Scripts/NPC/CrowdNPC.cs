@@ -23,6 +23,8 @@ public class CrowdNPC : MonoBehaviour
         }
     }
 
+    // Picks a random point on the NavMesh within wanderRadius and sends the NPC there.
+    // Uses NavMesh.SamplePosition to snap the random point to a valid walkable location.
     void SetNewDestination()
     {
         Vector3 randomPoint = transform.position + Random.insideUnitSphere * wanderRadius;

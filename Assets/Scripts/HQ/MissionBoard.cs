@@ -56,6 +56,7 @@ public class MissionBoard : MonoBehaviour
 
         if (player == null) return;
 
+        // Use sqrMagnitude instead of Vector3.Distance to avoid an expensive sqrt call
         float sqrDist = (transform.position - player.position).sqrMagnitude;
         bool inRange = sqrDist <= interactRange * interactRange;
 
