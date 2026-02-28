@@ -29,6 +29,11 @@ public class GameManager : MonoBehaviour
         Instance = this;
     }
 
+    void OnDestroy()
+    {
+        if (Instance == this) Instance = null;
+    }
+
     public void TransitionTo(GameState newState)
     {
         if (CurrentState == newState) return;

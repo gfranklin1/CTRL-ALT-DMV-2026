@@ -21,6 +21,7 @@ public class PhotoResultUI : MonoBehaviour
 
     public void Show(PhotoResult result)
     {
+        RunData.LastResult = result;
         if (panel != null) panel.SetActive(true);
         if (gradeText != null)      gradeText.text      = result.gradeLabel;
         if (scoreText != null)      scoreText.text       = $"Score: {result.totalScore:F0} / 100";
