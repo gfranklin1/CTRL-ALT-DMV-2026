@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class WinFailUI : MonoBehaviour
 {
@@ -33,12 +34,14 @@ public class WinFailUI : MonoBehaviour
             if (winPanel != null) winPanel.SetActive(true);
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
+            EventSystem.current?.SetSelectedGameObject(winGoHomeButton?.gameObject);
         }
         else if (state == GameState.Fail)
         {
             if (failPanel != null) failPanel.SetActive(true);
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
+            EventSystem.current?.SetSelectedGameObject(failRetryButton?.gameObject);
         }
     }
 

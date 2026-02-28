@@ -32,15 +32,20 @@ public class PhotoScorer : MonoBehaviour
             return result;
         }
 
-        // 2. Line-of-sight check
+        // 2. Line-of-sight check — only blocked by geometry, not the celebrity's own collider
         Vector3 dir = (celebrity.transform.position - cam.transform.position).normalized;
         float dist = Vector3.Distance(cam.transform.position, celebrity.transform.position);
-        if (Physics.Raycast(cam.transform.position, dir, dist - 0.5f))
+        if (Physics.Raycast(cam.transform.position, dir, out RaycastHit losHit, dist))
         {
-            result.gradeLabel = "USELESS";
-            result.totalScore = 0f;
-            Debug.Log("[PhotoScorer] Line of sight blocked.");
-            return result;
+            bool hitSelf = losHit.transform == celebrity.transform ||
+                           losHit.transform.IsChildOf(celebrity.transform);
+            if (!hitSelf)
+            {
+                result.gradeLabel = "USELESS";
+                result.totalScore = 0f;
+                Debug.Log($"[PhotoScorer] Line of sight blocked by: {losHit.collider.name}");
+                return result;
+            }
         }
 
         // 3. Target action match
