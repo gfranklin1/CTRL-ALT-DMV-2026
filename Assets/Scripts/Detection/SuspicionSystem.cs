@@ -73,6 +73,7 @@ public class SuspicionSystem : MonoBehaviour
             if (nearbyNPCs >= 2) mult *= 0.6f;
         }
 
+        mult *= RunData.SuspicionRateMultiplier;
         suspicion = Mathf.Clamp01(suspicion + ratePerSecond * mult * Time.deltaTime);
     }
 

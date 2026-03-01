@@ -23,6 +23,9 @@ public class BodyguardBribeHandler : MonoBehaviour
     public float BribeSuccessChance => bribeSuccessChance;
     public bool  IsIllegalZone      => isIllegalZone;
 
+    public int   EffectiveCost          => Mathf.RoundToInt(bribeCost * RunData.BribeCostMultiplier);
+    public float EffectiveSuccessChance => Mathf.Clamp01(bribeSuccessChance + RunData.BribeSuccessModifier);
+
     public void InitializeBribe(int cost, float chance, float duration, bool illegal)
     {
         bribeCost            = cost;
@@ -72,8 +75,8 @@ public class BodyguardBribeHandler : MonoBehaviour
     // Called by BribeUI after player confirms
     public void AttemptBribe()
     {
-        RunData.TotalEarnings -= bribeCost;
-        bool success = Random.value < bribeSuccessChance;
+        RunData.TotalEarnings -= EffectiveCost;
+        bool success = Random.value < EffectiveSuccessChance;
 
         if (success)
         {

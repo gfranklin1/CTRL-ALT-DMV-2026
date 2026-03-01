@@ -41,9 +41,9 @@ public class BribeUI : MonoBehaviour
         currentHandler = handler;
         IsOpen = true;
 
-        bool canAfford = RunData.TotalEarnings >= handler.BribeCost;
-        if (costText   != null) costText.text   = $"BRIBE COST:      ${handler.BribeCost}";
-        if (chanceText != null) chanceText.text = $"SUCCESS CHANCE:  {handler.BribeSuccessChance * 100f:F0}%";
+        bool canAfford = RunData.TotalEarnings >= handler.EffectiveCost;
+        if (costText   != null) costText.text   = $"BRIBE COST:      ${handler.EffectiveCost}";
+        if (chanceText != null) chanceText.text = $"SUCCESS CHANCE:  {handler.EffectiveSuccessChance * 100f:F0}%";
         if (fundsText  != null) fundsText.text  = $"YOUR FUNDS:      ${RunData.TotalEarnings}";
         if (resultText != null) resultText.text = "";
         if (confirmButton != null) confirmButton.interactable = canAfford;

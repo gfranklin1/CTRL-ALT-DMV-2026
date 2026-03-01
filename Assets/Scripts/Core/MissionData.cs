@@ -32,6 +32,9 @@ public class MissionData : ScriptableObject
     public string levelSceneName = "SampleScene";
     public float missionTime = 120f;
     public bool sharedSuspicion = true;
+    [Header("Reputation")]
+    [Range(0, 100)]
+    public int minReputation = 0;
     public CelebrityDefinition[] celebrities;
     public BodyguardDefinition[] bodyguards;
 }
