@@ -21,14 +21,6 @@ public enum CelebrityAction
     DrinkingCoffee
 }
 
-[System.Serializable]
-public class CelebrityTarget
-{
-    public CelebrityData celebrity;
-    public CelebrityAction targetAction = CelebrityAction.WavingAtFan;
-    public int payoutAmount = 500;
-}
-
 [CreateAssetMenu(fileName = "MissionData", menuName = "Paparazzi/Mission Data")]
 public class MissionData : ScriptableObject
 {

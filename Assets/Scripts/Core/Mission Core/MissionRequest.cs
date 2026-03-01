@@ -1,5 +1,13 @@
 using UnityEngine;
 
+[System.Serializable]
+public class CelebrityDefinition
+{
+    public string displayName = "Celebrity";
+    public CelebrityAction targetAction = CelebrityAction.WavingAtFan;
+    public int payoutAmount = 500;
+}
+
 public enum MissionModifier
 {
     None,
