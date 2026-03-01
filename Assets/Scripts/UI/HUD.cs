@@ -27,13 +27,13 @@ public class HUD : MonoBehaviour
         MissionRequest mission = MissionManager.Instance?.CurrentMission;
         if (mission != null && objectiveText != null)
         {
-            if (mission.targets != null && mission.targets.Length > 0)
+            if (mission.celebrities != null && mission.celebrities.Length > 0)
             {
                 int total = 0;
-                foreach (var t in mission.targets) total += t.payoutAmount;
-                string acts = mission.targets.Length == 1
-                    ? mission.targets[0].targetAction.ToString()
-                    : $"{mission.targets.Length} targets";
+                foreach (var t in mission.celebrities) total += t.payoutAmount;
+                string acts = mission.celebrities.Length == 1
+                    ? mission.celebrities[0].targetAction.ToString()
+                    : $"{mission.celebrities.Length} targets";
                 objectiveText.text = $"OBJECTIVE: {acts} — ${total} payout";
             }
             else

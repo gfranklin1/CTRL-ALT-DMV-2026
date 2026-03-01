@@ -16,28 +16,28 @@ public class MissionCard : MonoBehaviour
 
         if (actionText != null)
         {
-            if (data.targets == null || data.targets.Length == 0)
+            if (data.celebrities == null || data.celebrities.Length == 0)
                 actionText.text = "NO TARGETS";
-            else if (data.targets.Length <= 2)
+            else if (data.celebrities.Length <= 2)
             {
                 var sb = new System.Text.StringBuilder();
-                for (int i = 0; i < data.targets.Length; i++)
+                for (int i = 0; i < data.celebrities.Length; i++)
                 {
                     if (i > 0) sb.Append(" + ");
-                    sb.Append(data.targets[i].targetAction.ToString().ToUpper());
+                    sb.Append(data.celebrities[i].targetAction.ToString().ToUpper());
                 }
                 actionText.text = sb.ToString();
             }
             else
-                actionText.text = $"{data.targets.Length} TARGETS";
+                actionText.text = $"{data.celebrities.Length} TARGETS";
         }
 
         if (payoutText != null)
         {
             float mult  = RunData.PayoutMultiplier;
             int   total = 0;
-            if (data.targets != null)
-                foreach (var t in data.targets) total += t.payoutAmount;
+            if (data.celebrities != null)
+                foreach (var t in data.celebrities) total += t.payoutAmount;
             int   adj   = Mathf.RoundToInt(total * mult);
             string tag  = mult >= 1.05f ? $"  (+{(int)((mult-1)*100)}% rep)"
                         : mult <= 0.95f ? $"  (-{(int)((1-mult)*100)}% rep)"

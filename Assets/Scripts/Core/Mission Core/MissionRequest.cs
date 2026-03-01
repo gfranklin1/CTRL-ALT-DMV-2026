@@ -35,6 +35,6 @@ public class MissionRequest : ScriptableObject
     public float riskLevel;
 
     [Header("Spawning")]
-    public CelebrityDefinition[] celebrities;
+    public CelebrityTarget[] celebrities;   // was CelebrityDefinition[] — now unified
     public BodyguardDefinition[] bodyguards;
 }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CameraController : MonoBehaviour
 {
@@ -9,9 +10,15 @@ public class CameraController : MonoBehaviour
     [Header("Smoothing")]
     [SerializeField, Range(0f, 1f)] float lookSmoothing = 0.5f;
 
+    [Header("HQ Mode")]
+    [SerializeField] float hqYawRange = 60f;   // degrees either side of starting direction
+
+    bool hqMode;
+
     InputSystem_Actions input;
     float pitch;
     float yaw;
+    float hqYawCenter;
     Vector2 smoothedLook;
     bool skipFirstLookFrame;
     bool prevNeedsCursor;
@@ -19,6 +26,7 @@ public class CameraController : MonoBehaviour
     void Awake()
     {
         input = new InputSystem_Actions();
+        hqMode = SceneManager.GetActiveScene().name == SceneLoader.HOME_SCENE;
     }
 
     void OnEnable() => input.Player.Enable();
@@ -32,6 +40,7 @@ public class CameraController : MonoBehaviour
 
         // Initialise yaw from the player body so first frame isn't a snap
         if (playerBody != null) yaw = playerBody.eulerAngles.y;
+        hqYawCenter = yaw;   // lock-in the facing direction for HQ yaw clamping
     }
 
     // Cursor state can stay in Update – it's UI-related and shouldn't wait for LateUpdate
@@ -71,6 +80,10 @@ public class CameraController : MonoBehaviour
         yaw += smoothedLook.x;
         pitch -= smoothedLook.y;
         pitch = Mathf.Clamp(pitch, -pitchClamp, pitchClamp);
+
+        // In HQ mode, clamp yaw so the player can only glance left/right a limited amount
+        if (hqMode)
+            yaw = Mathf.Clamp(yaw, hqYawCenter - hqYawRange, hqYawCenter + hqYawRange);
 
         // Apply rotations via absolute angles – avoids floating-point drift from Rotate()
         if (playerBody != null)
