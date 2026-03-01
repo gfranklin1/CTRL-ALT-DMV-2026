@@ -2,15 +2,27 @@ using UnityEngine;
 
 public class PhotoScorer : MonoBehaviour
 {
-    [SerializeField] CelebrityController celebrity;
+    CelebrityController[] celebrities;
 
     void Start()
     {
-        if (celebrity == null)
-            celebrity = FindFirstObjectByType<CelebrityController>();
+        celebrities = FindObjectsByType<CelebrityController>(FindObjectsSortMode.None);
     }
 
     public PhotoResult ScoreShot(Camera cam)
+    {
+        PhotoResult best = new PhotoResult { gradeLabel = "USELESS" };
+
+        foreach (var celeb in celebrities)
+        {
+            PhotoResult r = ScoreOne(cam, celeb);
+            if (r.totalScore > best.totalScore) best = r;
+        }
+
+        return best;
+    }
+
+    PhotoResult ScoreOne(Camera cam, CelebrityController celebrity)
     {
         var result = new PhotoResult();
 
@@ -21,17 +33,16 @@ public class PhotoScorer : MonoBehaviour
         }
 
         // 1. Frustum check — is the celebrity visible on screen?
-        // WorldToViewportPoint returns (0-1, 0-1, depth). z > 0 means in front of camera.
         Vector3 vp = cam.WorldToViewportPoint(celebrity.transform.position);
         result.celebInFrame = vp.z > 0f && vp.x > 0f && vp.x < 1f && vp.y > 0f && vp.y < 1f;
 
         if (!result.celebInFrame)
         {
             result.gradeLabel = "USELESS";
-            result.totalScore = 0f;
-            Debug.Log("[PhotoScorer] Celebrity not in frame.");
             return result;
         }
+
+        result.celebName = celebrity.displayName;
 
         // 2. Line-of-sight check — only blocked by geometry, not the celebrity's own collider
         Vector3 dir = (celebrity.transform.position - cam.transform.position).normalized;
@@ -43,16 +54,14 @@ public class PhotoScorer : MonoBehaviour
             if (!hitSelf)
             {
                 result.gradeLabel = "USELESS";
-                result.totalScore = 0f;
-                Debug.Log($"[PhotoScorer] Line of sight blocked by: {losHit.collider.name}");
+                Debug.Log($"[PhotoScorer] Line of sight to {celebrity.displayName} blocked by: {losHit.collider.name}");
                 return result;
             }
         }
 
-        // 3. Target action match
-        CelebrityAction target = MissionManager.Instance?.CurrentMission?.targetAction ?? CelebrityAction.None;
+        // 3. Target action match — uses per-celebrity targetAction
         result.targetActionMatch = celebrity.CurrentAction != CelebrityAction.None &&
-                                   celebrity.CurrentAction == target;
+                                   celebrity.CurrentAction == celebrity.targetAction;
 
         // 4. Distance score (ideal 3–8 m)
         if (dist >= 3f && dist <= 8f)
@@ -63,37 +72,24 @@ public class PhotoScorer : MonoBehaviour
             result.distanceScore = Mathf.Lerp(100f, 0f, Mathf.InverseLerp(8f, 20f, dist));
         result.distanceScore = Mathf.Clamp(result.distanceScore, 0f, 100f);
 
-        // 5. Center-of-frame score — how close the celebrity is to the center of the photo.
-        // Convert viewport coords (0-1) to a 0-1 distance from center, where 0 = dead center.
+        // 5. Center-of-frame score
         float cx = Mathf.Abs(vp.x - 0.5f) * 2f;
         float cy = Mathf.Abs(vp.y - 0.5f) * 2f;
         float centerDist = Mathf.Sqrt(cx * cx + cy * cy);
         result.centerScore = Mathf.Clamp01(1f - centerDist) * 100f;
 
-        // Final score is the average of distance and center scores.
-        // If the player didn't capture the correct action, penalize heavily (30% of score).
         result.totalScore = (result.distanceScore + result.centerScore) / 2f;
         if (!result.targetActionMatch) result.totalScore *= 0.3f;
 
-        // Payout
-        int maxPayout = MissionManager.Instance?.CurrentMission?.payoutAmount ?? 500;
-        result.payout = Mathf.RoundToInt(result.totalScore / 100f * maxPayout);
+        // Payout uses per-celebrity payoutAmount
+        result.payout = Mathf.RoundToInt(result.totalScore / 100f * celebrity.payoutAmount);
 
-        // Grade
-        if (result.totalScore >= 80f) {
-            result.gradeLabel = "MONEY SHOT";
-        }
-        else if (result.totalScore >= 50f) {
-            result.gradeLabel = "PUBLISHABLE";
-        } 
-        else if (result.totalScore >= 20f) {
-            result.gradeLabel = "WEAK";
-        }
-        else {
-            result.gradeLabel = "USELESS";
-        }
+        if      (result.totalScore >= 80f) result.gradeLabel = "MONEY SHOT";
+        else if (result.totalScore >= 50f) result.gradeLabel = "PUBLISHABLE";
+        else if (result.totalScore >= 20f) result.gradeLabel = "WEAK";
+        else                               result.gradeLabel = "USELESS";
 
-        Debug.Log($"[PhotoScorer] {result.gradeLabel} | Score: {result.totalScore:F0} | ActionMatch: {result.targetActionMatch} | Dist: {dist:F1}m | Center: {result.centerScore:F0}");
+        Debug.Log($"[PhotoScorer] {celebrity.displayName} → {result.gradeLabel} | Score: {result.totalScore:F0} | ActionMatch: {result.targetActionMatch} | Dist: {dist:F1}m");
 
         return result;
     }

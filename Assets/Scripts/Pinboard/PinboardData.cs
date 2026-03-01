@@ -61,6 +61,38 @@ public static class PinboardData
         }
     }
 
+    // Overwrites the photo and metadata at [index] in place (no renumbering needed).
+    public static void Replace(int index, Texture2D tex, PinboardEntry entry)
+    {
+        if (!_loaded) Load();
+        if (index < 0 || index >= _entries.Count) return;
+
+        string pngPath  = SaveDir + "photo_" + index + ".png";
+        string jsonPath = SaveDir + "photo_" + index + ".json";
+
+        entry.texturePath = pngPath;
+        File.WriteAllBytes(pngPath, tex.EncodeToPNG());
+        File.WriteAllText(jsonPath, JsonUtility.ToJson(entry));
+
+        _entries[index] = entry;
+    }
+
+    // Removes all entries from [index] onwards and deletes their files from disk.
+    // Used to discard session photos when the player gets caught.
+    public static void RemoveFrom(int index)
+    {
+        if (!_loaded) Load();
+        for (int i = index; i < _entries.Count; i++)
+        {
+            string pngPath = SaveDir + "photo_" + i + ".png";
+            string jsonPath = SaveDir + "photo_" + i + ".json";
+            if (File.Exists(pngPath))  File.Delete(pngPath);
+            if (File.Exists(jsonPath)) File.Delete(jsonPath);
+        }
+        if (_entries.Count > index)
+            _entries.RemoveRange(index, _entries.Count - index);
+    }
+
     public static void Clear()
     {
         if (Directory.Exists(SaveDir))

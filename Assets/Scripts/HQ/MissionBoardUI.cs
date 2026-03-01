@@ -51,7 +51,12 @@ public class MissionBoardUI : MonoBehaviour
         foreach (Transform child in cardContainer)
             Destroy(child.gameObject);
 
-        foreach (MissionData mission in missions)
+        var available = new System.Collections.Generic.List<MissionData>();
+        foreach (var m in missions)
+            if (RunData.Reputation >= m.minReputation)
+                available.Add(m);
+
+        foreach (MissionData mission in available)
         {
             GameObject card = Instantiate(missionCardPrefab, cardContainer);
             MissionCard mc = card.GetComponent<MissionCard>();

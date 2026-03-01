@@ -23,9 +23,9 @@ public class PhotoResultUI : MonoBehaviour
     {
         RunData.LastResult = result;
         if (panel != null) panel.SetActive(true);
-        if (gradeText != null)      gradeText.text      = result.gradeLabel;
-        if (scoreText != null)      scoreText.text       = $"Score: {result.totalScore:F0} / 100";
-        if (payoutText != null)     payoutText.text      = $"Payout: ${result.payout}";
+        if (gradeText != null) gradeText.text = result.gradeLabel;
+        if (scoreText != null) scoreText.text = $"Score: {result.totalScore:F0} / 100";
+        if (payoutText != null) payoutText.text = $"Payout: ${result.payout}";
         if (actionMatchText != null)
             actionMatchText.text = result.targetActionMatch ? "✓ ACTION CAPTURED!" : "✗ Wrong moment...";
 
@@ -38,6 +38,6 @@ public class PhotoResultUI : MonoBehaviour
         yield return new WaitForSeconds(2f);
         if (panel != null) panel.SetActive(false);
         if (GameManager.Instance?.CurrentState == GameState.PhotoTaken)
-            GameManager.Instance?.TransitionTo(GameState.Escaping);
+            GameManager.Instance?.TransitionTo(GameState.Playing);
     }
 }

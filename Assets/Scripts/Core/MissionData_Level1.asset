@@ -14,6 +14,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MissionData
   missionTitle: HOT SHOT
   briefText: "The A-lister is out today.\nGet the shot \u2014 don't get busted."
-  targetAction: 1
-  payoutAmount: 500
   levelSceneName: SampleScene
+  missionTime: 120
+  sharedSuspicion: 1
+  minReputation: 0
+  targets:
+  - celebrity: {fileID: 11400000, guid: 7ab93d4263cff364d86d6c2c0223b9b8, type: 2}
+    targetAction: 1
+    payoutAmount: 500
+  - celebrity: {fileID: 11400000, guid: db55bef9387c01c4285e12978964ae92, type: 2}
+    targetAction: 2
+    payoutAmount: 750
+  bodyguards:
+  - guardType: 0
+    followsCelebrityIndex: 0
+    bribeCost: 300
+    bribeSuccessChance: 0.35
+    bribeDisableDuration: 20
+    isIllegalZone: 1
+  - guardType: 1
+    followsCelebrityIndex: 0
+    bribeCost: 300
+    bribeSuccessChance: 0.35
+    bribeDisableDuration: 20
+    isIllegalZone: 1

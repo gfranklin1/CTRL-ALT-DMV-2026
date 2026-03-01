@@ -23,7 +23,10 @@ public class PinnedPhoto : MonoBehaviour
         }
 
         if (labelText != null)
-            labelText.text = entry.grade + "\n$" + entry.payout;
+        {
+            string name = !string.IsNullOrEmpty(entry.celebName) ? entry.celebName + "\n" : "";
+            labelText.text = name + entry.grade + "\n$" + entry.payout;
+        }
 
         // Apply the random tilt from the entry so each photo looks slightly askew
         Vector3 euler = transform.localEulerAngles;
