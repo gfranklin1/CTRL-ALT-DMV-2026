@@ -1,13 +1,5 @@
 using UnityEngine;
 
-[System.Serializable]
-public class CelebrityDefinition
-{
-    public string displayName = "Celebrity";
-    public CelebrityAction targetAction = CelebrityAction.WavingAtFan;
-    public int payoutAmount = 500;
-}
-
 public enum MissionModifier
 {
     None,
@@ -43,6 +35,6 @@ public class MissionRequest : ScriptableObject
     public float riskLevel;
 
     [Header("Spawning")]
-    public CelebrityDefinition[] celebrities;
+    public CelebrityTarget[] celebrities;   // was CelebrityDefinition[] — now unified
     public BodyguardDefinition[] bodyguards;
 }

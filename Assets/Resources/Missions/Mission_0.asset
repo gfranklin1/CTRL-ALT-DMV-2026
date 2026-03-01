@@ -12,24 +12,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efe2b64725b98b04fb141cc66a6e2e90, type: 3}
   m_Name: Mission_0
   m_EditorClassIdentifier: Assembly-CSharp::MissionRequest
-  missionTitle: 'Red Carpet Arrival: Unknown'
-  briefText: 'Get a shot of Unknown at SampleScene. Client: Suki Laroche.'
-  employer: Suki Laroche
-  jobType: Red Carpet Arrival
-  modifier: 0
+  missionTitle: 'Poolside Candid: Victor Cruz'
+  briefText: 'Get a shot of Victor Cruz at SampleScene. Client: Marco Vega. Warning:
+    DoubleGuards.'
+  employer: Marco Vega
+  jobType: Poolside Candid
+  modifier: 5
   levelSceneName: SampleScene
-  missionTime: 144
+  missionTime: 96
   sharedSuspicion: 1
-  minReputation: 18
-  targetName: Unknown
+  minReputation: 42
+  targetName: Victor Cruz
   targetAction: 1
-  payoutAmount: 519
-  riskLevel: 0.3
-  targets:
+  payoutAmount: 1170
+  riskLevel: 0.7
+  celebrities:
   - celebrity: {fileID: 0}
     targetAction: 1
-    payoutAmount: 519
+    payoutAmount: 1170
   bodyguards:
+  - guardType: 0
+    followsCelebrityIndex: 0
+    bribeCost: 300
+    bribeSuccessChance: 0.35
+    bribeDisableDuration: 20
+    isIllegalZone: 1
+  - guardType: 0
+    followsCelebrityIndex: 0
+    bribeCost: 300
+    bribeSuccessChance: 0.35
+    bribeDisableDuration: 20
+    isIllegalZone: 1
+  - guardType: 0
+    followsCelebrityIndex: 0
+    bribeCost: 300
+    bribeSuccessChance: 0.35
+    bribeDisableDuration: 20
+    isIllegalZone: 1
   - guardType: 0
     followsCelebrityIndex: 0
     bribeCost: 300

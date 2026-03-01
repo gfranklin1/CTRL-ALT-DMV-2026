@@ -120,13 +120,13 @@ public class MissionRequestManager : MonoBehaviour
 
         // Build celebrity list — MultipleCelebrities adds a second target
         bool multiCeleb = mModifier == MissionModifier.MultipleCelebrities;
-        var celebDefs   = new CelebrityDefinition[multiCeleb ? 2 : 1];
-        celebDefs[0]    = new CelebrityDefinition { displayName = mTargetName, targetAction = mAction, payoutAmount = mReward };
+        var celebDefs   = new CelebrityTarget[multiCeleb ? 2 : 1];
+        celebDefs[0]    = new CelebrityTarget { targetAction = mAction, payoutAmount = mReward };
         if (multiCeleb)
         {
             string secondName   = npcNames[Random.Range(0, npcNames.Length)];
             CelebrityAction act2 = nonNoneActions[Random.Range(0, nonNoneActions.Length)];
-            celebDefs[1] = new CelebrityDefinition { displayName = secondName, targetAction = act2, payoutAmount = Mathf.RoundToInt(mReward * 0.8f) };
+            celebDefs[1] = new CelebrityTarget {targetAction = act2, payoutAmount = Mathf.RoundToInt(mReward * 0.8f) };
         }
 
         // Build bodyguard list — DoubleGuards doubles count, NoBribes zeroes bribe chance
@@ -144,7 +144,7 @@ public class MissionRequestManager : MonoBehaviour
         float mTime = Mathf.Lerp(180f, 60f, mRisk);
         if (mModifier == MissionModifier.TimeLimit) mTime *= 0.5f;
 
-        string displayTarget = multiCeleb ? $"{mTargetName} + {celebDefs[1].displayName}" : mTargetName;
+        string displayTarget = multiCeleb ? $"{mTargetName} + {celebDefs[1].celebrity.displayName}" : mTargetName;
         string title = $"{mJobType}: {displayTarget}";
         string brief = $"Get a shot of {displayTarget} at {mLocation}. Client: {mEmployer}.";
         if (mModifier != MissionModifier.None) brief += $" Warning: {mModifier}.";

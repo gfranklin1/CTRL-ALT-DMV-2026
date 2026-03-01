@@ -35,3 +35,11 @@ public class MissionData : ScriptableObject
     public CelebrityTarget[] targets;
     public BodyguardDefinition[] bodyguards;
 }
+
+[System.Serializable]
+public class CelebrityTarget
+{
+    public CelebrityData celebrity;
+    public CelebrityAction targetAction = CelebrityAction.WavingAtFan;
+    public int payoutAmount = 500;
+}
