@@ -137,6 +137,12 @@ public class MissionRequestManager : MonoBehaviour
         for (int i = 0; i < guardCount; i++)
         {
             guardDefs[i] = new BodyguardDefinition();
+            // First guard always follows the celebrity; the rest are stationary.
+            if (i == 0)
+            {
+                guardDefs[i].guardType = BodyguardType.Following;
+                guardDefs[i].followsCelebrityIndex = 0;
+            }
             if (noBribes) guardDefs[i].bribeSuccessChance = 0f;
         }
 

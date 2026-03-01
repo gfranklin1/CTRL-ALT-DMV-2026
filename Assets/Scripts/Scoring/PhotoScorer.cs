@@ -2,15 +2,10 @@ using UnityEngine;
 
 public class PhotoScorer : MonoBehaviour
 {
-    CelebrityController[] celebrities;
-
-    void Start()
-    {
-        celebrities = FindObjectsByType<CelebrityController>(FindObjectsSortMode.None);
-    }
-
     public PhotoResult ScoreShot(Camera cam)
     {
+        // Find at shot time so spawner-instantiated celebrities are always included.
+        var celebrities = FindObjectsByType<CelebrityController>(FindObjectsSortMode.None);
         PhotoResult best = new PhotoResult { gradeLabel = "USELESS" };
 
         foreach (var celeb in celebrities)
