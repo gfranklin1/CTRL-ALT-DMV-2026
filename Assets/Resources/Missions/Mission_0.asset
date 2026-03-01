@@ -12,24 +12,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efe2b64725b98b04fb141cc66a6e2e90, type: 3}
   m_Name: Mission_0
   m_EditorClassIdentifier: Assembly-CSharp::MissionRequest
-  missionTitle: 'Backstage Reveal: Victor Cruz'
-  briefText: 'Get a shot of Victor Cruz at SampleScene. Client: Jade Hollis. Warning:
-    Suspicious.'
+  missionTitle: 'Backstage Reveal: Victor Cruz + Jade Hollis'
+  briefText: 'Get a shot of Victor Cruz + Jade Hollis at SampleScene. Client: Jade
+    Hollis. Warning: MultipleCelebrities.'
   employer: Jade Hollis
   jobType: Backstage Reveal
-  modifier: 4
+  modifier: 2
   levelSceneName: SampleScene
   missionTime: 120
   sharedSuspicion: 1
   minReputation: 30
-  targetName: Victor Cruz
+  targetName: Victor Cruz + Jade Hollis
   targetAction: 1
-  payoutAmount: 358
+  payoutAmount: 939
   riskLevel: 0.5
   celebrities:
   - displayName: Victor Cruz
     targetAction: 1
-    payoutAmount: 358
+    payoutAmount: 939
+  - displayName: Jade Hollis
+    targetAction: 2
+    payoutAmount: 751
   bodyguards:
   - guardType: 0
     followsCelebrityIndex: 0

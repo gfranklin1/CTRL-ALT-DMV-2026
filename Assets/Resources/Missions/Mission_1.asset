@@ -12,24 +12,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efe2b64725b98b04fb141cc66a6e2e90, type: 3}
   m_Name: Mission_1
   m_EditorClassIdentifier: Assembly-CSharp::MissionRequest
-  missionTitle: 'Street Candid: Marco Vega'
-  briefText: 'Get a shot of Marco Vega at SampleScene. Client: Suki Laroche. Warning:
-    TimeLimit.'
-  employer: Suki Laroche
-  jobType: Street Candid
-  modifier: 1
+  missionTitle: 'Backstage Reveal: Nadia Bloom + Suki Laroche'
+  briefText: 'Get a shot of Nadia Bloom + Suki Laroche at SampleScene. Client: Victor
+    Cruz. Warning: MultipleCelebrities.'
+  employer: Victor Cruz
+  jobType: Backstage Reveal
+  modifier: 2
   levelSceneName: SampleScene
-  missionTime: 60
+  missionTime: 120
   sharedSuspicion: 1
   minReputation: 30
-  targetName: Marco Vega
+  targetName: Nadia Bloom + Suki Laroche
   targetAction: 1
-  payoutAmount: 411
+  payoutAmount: 840
   riskLevel: 0.5
   celebrities:
-  - displayName: Marco Vega
+  - displayName: Nadia Bloom
     targetAction: 1
-    payoutAmount: 411
+    payoutAmount: 840
+  - displayName: Suki Laroche
+    targetAction: 1
+    payoutAmount: 672
   bodyguards:
   - guardType: 0
     followsCelebrityIndex: 0

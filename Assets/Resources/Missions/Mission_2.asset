@@ -12,27 +12,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efe2b64725b98b04fb141cc66a6e2e90, type: 3}
   m_Name: Mission_2
   m_EditorClassIdentifier: Assembly-CSharp::MissionRequest
-  missionTitle: 'Red Carpet Arrival: Alexis Stone + Remy Dalton'
-  briefText: 'Get a shot of Alexis Stone + Remy Dalton at SampleScene. Client: Remy
+  missionTitle: 'Coffee Sip Shot: Jade Hollis + Remy Dalton'
+  briefText: 'Get a shot of Jade Hollis + Remy Dalton at SampleScene. Client: Remy
     Dalton. Warning: MultipleCelebrities.'
   employer: Remy Dalton
-  jobType: Red Carpet Arrival
+  jobType: Coffee Sip Shot
   modifier: 2
   levelSceneName: SampleScene
   missionTime: 120
   sharedSuspicion: 1
   minReputation: 30
-  targetName: Alexis Stone + Remy Dalton
+  targetName: Jade Hollis + Remy Dalton
   targetAction: 1
-  payoutAmount: 438
+  payoutAmount: 663
   riskLevel: 0.5
   celebrities:
-  - displayName: Alexis Stone
+  - displayName: Jade Hollis
     targetAction: 1
-    payoutAmount: 438
+    payoutAmount: 663
   - displayName: Remy Dalton
     targetAction: 2
-    payoutAmount: 350
+    payoutAmount: 530
   bodyguards:
   - guardType: 0
     followsCelebrityIndex: 0

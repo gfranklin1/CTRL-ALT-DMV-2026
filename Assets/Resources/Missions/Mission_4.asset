@@ -12,28 +12,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efe2b64725b98b04fb141cc66a6e2e90, type: 3}
   m_Name: Mission_4
   m_EditorClassIdentifier: Assembly-CSharp::MissionRequest
-  missionTitle: 'Rooftop Spy Shot: Suki Laroche + Marco Vega'
-  briefText: 'Get a shot of Suki Laroche + Marco Vega at SampleScene. Client: Remy
-    Dalton. Warning: MultipleCelebrities.'
-  employer: Remy Dalton
-  jobType: Rooftop Spy Shot
-  modifier: 2
+  missionTitle: 'Red Carpet Arrival: Suki Laroche'
+  briefText: 'Get a shot of Suki Laroche at SampleScene. Client: Jade Hollis. Warning:
+    DoubleGuards.'
+  employer: Jade Hollis
+  jobType: Red Carpet Arrival
+  modifier: 5
   levelSceneName: SampleScene
-  missionTime: 120
+  missionTime: 96
   sharedSuspicion: 1
-  minReputation: 30
-  targetName: Suki Laroche + Marco Vega
-  targetAction: 2
-  payoutAmount: 940
-  riskLevel: 0.5
+  minReputation: 42
+  targetName: Suki Laroche
+  targetAction: 1
+  payoutAmount: 452
+  riskLevel: 0.7
   celebrities:
   - displayName: Suki Laroche
-    targetAction: 2
-    payoutAmount: 940
-  - displayName: Marco Vega
     targetAction: 1
-    payoutAmount: 752
+    payoutAmount: 452
   bodyguards:
+  - guardType: 0
+    followsCelebrityIndex: 0
+    bribeCost: 300
+    bribeSuccessChance: 0.35
+    bribeDisableDuration: 20
+    isIllegalZone: 1
+  - guardType: 0
+    followsCelebrityIndex: 0
+    bribeCost: 300
+    bribeSuccessChance: 0.35
+    bribeDisableDuration: 20
+    isIllegalZone: 1
   - guardType: 0
     followsCelebrityIndex: 0
     bribeCost: 300
