@@ -24,7 +24,7 @@ public class HUD : MonoBehaviour
         GameManager.OnStateChanged += OnStateChanged;
         OnStateChanged(GameManager.Instance?.CurrentState ?? GameState.MissionBrief);
 
-        MissionData mission = MissionManager.Instance?.CurrentMission;
+        MissionRequest mission = MissionManager.Instance?.CurrentMission;
         if (mission != null && objectiveText != null)
         {
             if (mission.targets != null && mission.targets.Length > 0)

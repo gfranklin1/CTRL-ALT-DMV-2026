@@ -17,30 +17,19 @@ public class MissionBriefUI : MonoBehaviour
         GameManager.OnStateChanged += OnStateChanged;
         OnStateChanged(GameManager.Instance?.CurrentState ?? GameState.MissionBrief);
 
-        MissionData mission = MissionManager.Instance?.CurrentMission;
+        MissionRequest mission = MissionManager.Instance?.CurrentMission;
         if (mission != null)
         {
             if (titleText != null) titleText.text = mission.missionTitle.ToUpper();
             if (briefText != null) briefText.text = mission.briefText;
-            if (mission.targets != null && mission.targets.Length > 0)
+            if (actionText != null)
             {
-                if (actionText != null)
-                {
-                    var sb = new System.Text.StringBuilder();
-                    foreach (var t in mission.targets)
-                    {
-                        string name = t.celebrity?.displayName ?? "Unknown";
-                        sb.AppendLine($"  {name}: {t.targetAction}");
-                    }
-                    actionText.text = $"TARGETS:\n{sb.ToString().TrimEnd()}";
-                }
-                if (payoutText != null)
-                {
-                    int total = 0;
-                    foreach (var t in mission.targets) total += t.payoutAmount;
-                    payoutText.text = $"TOTAL PAYOUT: ${total}";
-                }
+                int targetCount = mission.celebrities?.Length ?? 1;
+                string modStr = mission.modifier != MissionModifier.None ? $"  |  MODIFIER: {mission.modifier}" : "";
+                actionText.text = $"ACTION: {mission.targetAction}  |  TARGETS: {targetCount}{modStr}";
             }
+            if (payoutText != null)
+                payoutText.text = $"PAYOUT: ${mission.payoutAmount}  |  CLIENT: {mission.employer}";
         }
 
         if (promptText != null) promptText.text = "Press SPACE or E to begin";
