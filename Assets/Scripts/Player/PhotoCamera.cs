@@ -84,14 +84,37 @@ public class PhotoCamera : MonoBehaviour
         rt.Release();
 
         // Save the captured photo to disk and add it to the pinboard.
-        // Random rotation gives each pinned photo a slightly tilted look.
-        PinboardData.Add(tex, new PinboardEntry
+        // Only one photo per celebrity is kept — if a better shot of the same celeb
+        // was already taken this session, replace it; if this one is worse, skip it.
+        var entry = new PinboardEntry
         {
-            grade = result.gradeLabel,
-            payout = result.payout,
+            celebName    = result.celebName ?? "",
+            grade        = result.gradeLabel,
+            payout       = result.payout,
             missionTitle = RunData.LastMissionTitle ?? "",
-            rotation = Random.Range(-15f, 15f)
-        });
+            rotation     = Random.Range(-15f, 15f)
+        };
+
+        int existingIndex = -1;
+        for (int i = RunData.SessionPhotoStartIndex; i < PinboardData.Entries.Count; i++)
+        {
+            if (PinboardData.Entries[i].celebName == entry.celebName)
+            {
+                existingIndex = i;
+                break;
+            }
+        }
+
+        if (existingIndex >= 0)
+        {
+            if (result.payout > PinboardData.Entries[existingIndex].payout)
+                PinboardData.Replace(existingIndex, tex, entry);
+            // else: new shot is worse — don't update the pinboard
+        }
+        else
+        {
+            PinboardData.Add(tex, entry);
+        }
         // Texture2D was only needed for saving — destroy it to free memory
         Destroy(tex);
 

@@ -49,7 +49,7 @@ public class CelebrityController : MonoBehaviour
 
     public void Initialize(CelebrityDefinition def, WaypointPath path)
     {
-        displayName  = def.displayName;
+        displayName = def.displayName;
         targetAction = def.targetAction;
         payoutAmount = def.payoutAmount;
         waypointPath = path;

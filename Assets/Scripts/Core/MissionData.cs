@@ -5,6 +5,13 @@ public class BodyguardDefinition
 {
     public BodyguardType guardType = BodyguardType.Stationary;
     public int followsCelebrityIndex = 0;
+
+    [Header("Bribe (following guards only — stationary use BodyguardSpawnPoint)")]
+    public int bribeCost = 300;
+    [Range(0f, 1f)]
+    public float bribeSuccessChance = 0.35f;
+    public float bribeDisableDuration = 20f;
+    public bool isIllegalZone = true;
 }
 
 public enum CelebrityAction

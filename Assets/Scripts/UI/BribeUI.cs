@@ -16,9 +16,9 @@ public class BribeUI : MonoBehaviour
     [SerializeField] Button cancelButton;
 
     BodyguardBribeHandler currentHandler;
-    PlayerController      playerController;
-    CameraController      cameraController;
-    PhotoCamera           photoCamera;
+    PlayerController playerController;
+    CameraController cameraController;
+    PhotoCamera photoCamera;
 
     void Awake()
     {
@@ -33,7 +33,7 @@ public class BribeUI : MonoBehaviour
     {
         playerController = FindFirstObjectByType<PlayerController>();
         cameraController = FindFirstObjectByType<CameraController>();
-        photoCamera      = FindFirstObjectByType<PhotoCamera>();
+        photoCamera = FindFirstObjectByType<PhotoCamera>();
     }
 
     public void Show(BodyguardBribeHandler handler)
@@ -42,9 +42,9 @@ public class BribeUI : MonoBehaviour
         IsOpen = true;
 
         bool canAfford = RunData.TotalEarnings >= handler.EffectiveCost;
-        if (costText   != null) costText.text   = $"BRIBE COST:      ${handler.EffectiveCost}";
+        if (costText != null) costText.text = $"BRIBE COST:      ${handler.EffectiveCost}";
         if (chanceText != null) chanceText.text = $"SUCCESS CHANCE:  {handler.EffectiveSuccessChance * 100f:F0}%";
-        if (fundsText  != null) fundsText.text  = $"YOUR FUNDS:      ${RunData.TotalEarnings}";
+        if (fundsText != null) fundsText.text = $"YOUR FUNDS:      ${RunData.TotalEarnings}";
         if (resultText != null) resultText.text = "";
         if (confirmButton != null) confirmButton.interactable = canAfford;
 
@@ -106,9 +106,9 @@ public class BribeUI : MonoBehaviour
     void SetInputEnabled(bool enabled)
     {
         if (playerController != null) playerController.enabled = enabled;
-        if (cameraController  != null) cameraController.enabled  = enabled;
-        if (photoCamera       != null) photoCamera.enabled       = enabled;
+        if (cameraController != null) cameraController.enabled = enabled;
+        if (photoCamera != null) photoCamera.enabled = enabled;
         Cursor.lockState = enabled ? CursorLockMode.Locked : CursorLockMode.None;
-        Cursor.visible   = !enabled;
+        Cursor.visible = !enabled;
     }
 }

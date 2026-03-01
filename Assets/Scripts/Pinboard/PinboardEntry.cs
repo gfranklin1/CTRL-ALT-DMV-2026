@@ -4,6 +4,7 @@ using System;
 public class PinboardEntry
 {
     public string texturePath;
+    public string celebName;
     public string grade;
     public int payout;
     public string missionTitle;

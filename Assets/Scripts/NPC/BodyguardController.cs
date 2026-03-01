@@ -9,8 +9,8 @@ public class BodyguardController : MonoBehaviour
     [SerializeField] float followStopDistance = 1.8f;
 
     [Header("Visuals")]
-    [SerializeField] bool  debugColors   = true;
-    [SerializeField] Color normalColor   = new Color(0.3f, 0.3f, 0.8f);   // blue-grey
+    [SerializeField] bool debugColors = true;
+    [SerializeField] Color normalColor = new Color(0.3f, 0.3f, 0.8f); // blue-grey
     [SerializeField] Color detectingColor = new Color(1f, 0.3f, 0f);       // orange-red
 
     NavMeshAgent agent;
@@ -32,7 +32,7 @@ public class BodyguardController : MonoBehaviour
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
-        rend  = GetComponentInChildren<Renderer>();
+        rend = GetComponentInChildren<Renderer>();
     }
 
     void Start()

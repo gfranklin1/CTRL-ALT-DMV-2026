@@ -9,9 +9,9 @@ public class SuspicionMeterUI : MonoBehaviour
     [SerializeField] float pulseAmount = 0.06f;
 
     [Header("Colors")]
-    [SerializeField] Color safeColor    = new Color(0.2f, 0.8f, 0.2f);
+    [SerializeField] Color safeColor = new Color(0.2f, 0.8f, 0.2f);
     [SerializeField] Color warningColor = new Color(1f, 0.6f, 0f);
-    [SerializeField] Color dangerColor  = new Color(0.9f, 0.1f, 0.1f);
+    [SerializeField] Color dangerColor = new Color(0.9f, 0.1f, 0.1f);
 
     void Update()
     {

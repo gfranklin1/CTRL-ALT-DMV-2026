@@ -78,13 +78,22 @@ public static class RunData
     public static void Save()
     {
         PlayerPrefs.SetInt("TotalEarnings", TotalEarnings);
-        PlayerPrefs.SetInt("Reputation",    Reputation);
+        PlayerPrefs.SetInt("Reputation", Reputation);
         PlayerPrefs.Save();
     }
 
     public static void Load()
     {
         TotalEarnings = PlayerPrefs.GetInt("TotalEarnings", 0);
-        Reputation    = PlayerPrefs.GetInt("Reputation",    50);
+        Reputation = PlayerPrefs.GetInt("Reputation", 50);
+    }
+
+    public static void Reset()
+    {
+        TotalEarnings = 0;
+        Reputation    = 50;
+        PlayerPrefs.DeleteKey("TotalEarnings");
+        PlayerPrefs.DeleteKey("Reputation");
+        PlayerPrefs.Save();
     }
 }

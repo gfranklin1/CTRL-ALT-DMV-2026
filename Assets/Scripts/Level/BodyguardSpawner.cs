@@ -53,6 +53,9 @@ public class BodyguardSpawner : MonoBehaviour
                     : Vector3.zero;
                 var go = Instantiate(bodyguardPrefab, pos, Quaternion.identity);
                 go.GetComponent<BodyguardController>()?.Initialize(def, target);
+                go.GetComponent<BodyguardBribeHandler>()
+                  ?.InitializeBribe(def.bribeCost, def.bribeSuccessChance,
+                                    def.bribeDisableDuration, def.isIllegalZone);
             }
         }
     }

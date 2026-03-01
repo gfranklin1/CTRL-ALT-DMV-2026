@@ -20,8 +20,8 @@ public class MissionBriefUI : MonoBehaviour
         MissionData mission = MissionManager.Instance?.CurrentMission;
         if (mission != null)
         {
-            if (titleText != null)  titleText.text  = mission.missionTitle.ToUpper();
-            if (briefText != null)  briefText.text  = mission.briefText;
+            if (titleText != null) titleText.text = mission.missionTitle.ToUpper();
+            if (briefText != null) briefText.text = mission.briefText;
             if (actionText != null) actionText.text = $"TARGET ACTION: {mission.targetAction}";
             if (payoutText != null) payoutText.text = $"PAYOUT: ${mission.payoutAmount}";
         }
