@@ -8,7 +8,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: bar_atlas
-    second: {fileID: 2100000, guid: f8d63e150d673f64286a8bb921c3b848, type: 2}
+    second: {fileID: 2100000, guid: af031ac44d21eb24e9bbc5baae15cc20, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

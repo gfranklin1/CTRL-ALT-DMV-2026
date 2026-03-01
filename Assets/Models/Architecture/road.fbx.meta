@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 11081a6208fe85c4b8a3853a2b0d6c3c
+guid: 18531219797273242a4dce745cba0bf1
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
@@ -7,8 +7,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: bar_atlas
-    second: {fileID: 2100000, guid: af031ac44d21eb24e9bbc5baae15cc20, type: 2}
+      name: colormap.014
+    second: {fileID: 2100000, guid: e46d7a1a8c87e3a43a050ff1c274f458, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
