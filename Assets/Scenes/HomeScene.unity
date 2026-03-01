@@ -516,7 +516,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 141686461}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ed9c22dff3fa9914e8c920b7818169b9, type: 3}
   m_Name: 
@@ -544,7 +544,7 @@ CharacterController:
     m_Bits: 0
   m_LayerOverridePriority: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Height: 2
   m_Radius: 0.5
@@ -562,7 +562,7 @@ Transform:
   m_GameObject: {fileID: 141686461}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -2.07}
+  m_LocalPosition: {x: 0, y: 1, z: -1.363}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -938,7 +938,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 0
 --- !u!114 &332704739
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1088,6 +1088,8 @@ GameObject:
   m_Component:
   - component: {fileID: 457167744}
   - component: {fileID: 457167745}
+  - component: {fileID: 457167746}
+  - component: {fileID: 457167747}
   m_Layer: 0
   m_Name: UIDocument
   m_TagString: Untagged
@@ -1124,7 +1126,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.dll::UnityEngine.UIElements.UIDocument
   m_PanelSettings: {fileID: 11400000, guid: a188f3ce095be8a4eb54b5995f36a03e, type: 2}
   m_ParentUI: {fileID: 0}
-  sourceAsset: {fileID: 9197481963319205126, guid: 839a8e0dacbadaf44aa55204384b81de, type: 3}
+  sourceAsset: {fileID: 9197481963319205126, guid: a9c779b71dfc693408964dbcc6af7d4c, type: 3}
   m_SortingOrder: 0
   m_Position: 0
   m_WorldSpaceSizeMode: 1
@@ -1133,6 +1135,40 @@ MonoBehaviour:
   m_PivotReferenceSize: 0
   m_Pivot: 0
   m_WorldSpaceCollider: {fileID: 0}
+--- !u!114 &457167746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 457167743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff102b50f9d7a6841b16dccf0223bfa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MissionView
+  listEntryTemplate: {fileID: 9197481963319205126, guid: ef5a7851e8d007e4a81b315fda7336ab, type: 3}
+--- !u!65 &457167747
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 457167743}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 20.38, y: 17.7, z: 17.1}
+  m_Center: {x: 0.00019626619, y: -0.0002450943, z: 0}
 --- !u!1 &630380293
 GameObject:
   m_ObjectHideFlags: 0
@@ -1243,7 +1279,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.EventSystem
-  m_FirstSelected: {fileID: 0}
+  m_FirstSelected: {fileID: 457167743}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
 --- !u!4 &700320569
@@ -1348,6 +1384,7 @@ GameObject:
   - component: {fileID: 820734361}
   - component: {fileID: 820734360}
   - component: {fileID: 820734362}
+  - component: {fileID: 820734363}
   m_Layer: 0
   m_Name: PlayerCamera
   m_TagString: Untagged
@@ -1377,7 +1414,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 820734358}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ec65412aedb2c054d8a7dafef5a18215, type: 3}
   m_Name: 
@@ -1444,7 +1481,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 820734358}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
   m_Name: 
@@ -1481,6 +1518,22 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!114 &820734363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 820734358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c49b4cc203aa6414fae5c798d1d0e7d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.PhysicsRaycaster
+  m_EventMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_MaxRayIntersections: 2
 --- !u!1 &823287585
 GameObject:
   m_ObjectHideFlags: 0
@@ -2055,7 +2108,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1619224630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2068,6 +2121,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e818bba7d3fa4c498ff570cc7296b50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  npcNames: []
+  npcCelebrityObjects: []
+  npcGuardObjects: []
+  npcRegularObjects: []
+  jobTypes: []
+  locations: []
+  modifiers: []
 --- !u!4 &1619224631
 Transform:
   m_ObjectHideFlags: 0
@@ -3129,7 +3189,7 @@ MonoBehaviour:
     m_InteractionLayers:
       serializedVersion: 2
       m_Bits: 51
-    m_MaxInteractionDistance: 5
+    m_MaxInteractionDistance: 10
     m_DefaultEventCameraIsMainCamera: 1
     m_EventCameras: []
     m_PanelInputRedirection: 0

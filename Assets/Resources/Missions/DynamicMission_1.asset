@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efe2b64725b98b04fb141cc66a6e2e90, type: 3}
   m_Name: DynamicMission_1
   m_EditorClassIdentifier: Assembly-CSharp::MissionRequest
-  employer: 
-  jobType: 
-  location: 
-  reward: 0
-  riskLevel: 0
-  targetName: 
-  modifier: 
+  employer: Bob
+  jobType: Money Shot
+  location: Restaurant
+  reward: 100
+  riskLevel: 2.1
+  targetName: Joe
+  modifier: NONE
