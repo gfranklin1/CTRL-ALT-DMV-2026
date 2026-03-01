@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efe2b64725b98b04fb141cc66a6e2e90, type: 3}
+  m_Name: Mission_1
+  m_EditorClassIdentifier: Assembly-CSharp::MissionRequest
+  missionTitle: 'Red Carpet Arrival: Nadia Bloom + Jade Hollis'
+  briefText: 'Get a shot of Nadia Bloom + Jade Hollis at SampleScene. Client: Jade
+    Hollis. Warning: MultipleCelebrities.'
+  employer: Jade Hollis
+  jobType: Red Carpet Arrival
+  modifier: 2
+  levelSceneName: SampleScene
+  missionTime: 120
+  sharedSuspicion: 1
+  minReputation: 30
+  targetName: Nadia Bloom + Jade Hollis
+  targetAction: 1
+  payoutAmount: 705
+  riskLevel: 0.5
+  celebrities:
+  - displayName: Nadia Bloom
+    targetAction: 1
+    payoutAmount: 705
+  - displayName: Jade Hollis
+    targetAction: 1
+    payoutAmount: 564
+  bodyguards:
+  - guardType: 0
+    followsCelebrityIndex: 0
+    bribeCost: 300
+    bribeSuccessChance: 0.35
+    bribeDisableDuration: 20
+    isIllegalZone: 1
+  - guardType: 0
+    followsCelebrityIndex: 0
+    bribeCost: 300
+    bribeSuccessChance: 0.35
+    bribeDisableDuration: 20
+    isIllegalZone: 1

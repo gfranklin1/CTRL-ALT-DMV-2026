@@ -5,11 +5,13 @@ public class MissionBoard : MonoBehaviour
 {
     public static MissionBoard Instance { get; private set; }
 
-    public static event System.Action<MissionData[]> OnBoardOpened;
+    public static event System.Action<MissionRequest[]> OnBoardOpened;
 
     public static event System.Action OnBoardClosed;
 
-    [SerializeField] MissionData[] missions;
+    // Populated by Inspector as a fallback; at runtime MissionRequestManager
+    // generates missions dynamically and takes priority.
+    [SerializeField] MissionRequest[] fallbackMissions;
     [SerializeField] GameObject proximityPrompt;
     [SerializeField] float interactRange = 2.5f;
 
@@ -88,7 +90,10 @@ public class MissionBoard : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
-        OnBoardOpened?.Invoke(missions);
+        MissionRequest[] toShow = MissionRequestManager.Instance != null
+            ? MissionRequestManager.Instance.GetMissions()
+            : fallbackMissions;
+        OnBoardOpened?.Invoke(toShow);
     }
 
     public void Close()

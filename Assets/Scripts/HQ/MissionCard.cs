@@ -10,7 +10,7 @@ public class MissionCard : MonoBehaviour
 
     // Called by MissionBoardUI when this card is spawned.
     // Populates the UI text and wires the Deploy button to load the mission's scene.
-    public void Init(MissionData data)
+    public void Init(MissionRequest data)
     {
         if (titleText != null) titleText.text = data.missionTitle.ToUpper();
 
@@ -51,6 +51,8 @@ public class MissionCard : MonoBehaviour
                 if (SceneLoader.Instance == null) return;
                 deployButton.interactable = false;
                 RunData.LastMissionTitle = data.missionTitle;
+                // Store selected mission so level scene can read it from MissionManager
+                MissionRequestManager.Instance?.SelectMission(data);
                 // Close the board (re-enables controllers) before loading
                 MissionBoard.Instance?.Close();
                 SceneLoader.Instance.LoadScene(data.levelSceneName);

@@ -4,9 +4,12 @@ public class MissionManager : MonoBehaviour
 {
     public static MissionManager Instance { get; private set; }
 
-    [SerializeField] MissionData missionData;
+    // Can be manually assigned in the Inspector for one-off test levels.
+    // At runtime, MissionRequestManager.SelectedMission takes priority.
+    [SerializeField] MissionRequest missionData;
 
-    public MissionData CurrentMission => missionData;
+    public MissionRequest CurrentMission =>
+        MissionRequestManager.Instance?.SelectedMission ?? missionData;
 
     void Awake()
     {
