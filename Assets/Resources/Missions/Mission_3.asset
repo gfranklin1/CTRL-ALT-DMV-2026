@@ -12,31 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efe2b64725b98b04fb141cc66a6e2e90, type: 3}
   m_Name: Mission_3
   m_EditorClassIdentifier: Assembly-CSharp::MissionRequest
-  missionTitle: 'Street Candid: Jade Hollis'
-  briefText: 'Get a shot of Jade Hollis at SampleScene. Client: Nadia Bloom. Warning:
-    Suspicious.'
-  employer: Nadia Bloom
-  jobType: Street Candid
-  modifier: 4
+  missionTitle: 'Handshake Photo: Unknown'
+  briefText: 'Get a shot of Unknown at SampleScene. Client: Jade Hollis.'
+  employer: Jade Hollis
+  jobType: Handshake Photo
+  modifier: 0
   levelSceneName: SampleScene
-  missionTime: 120
+  missionTime: 144
   sharedSuspicion: 1
-  minReputation: 30
-  targetName: Jade Hollis
+  minReputation: 18
+  targetName: Unknown
   targetAction: 1
-  payoutAmount: 245
-  riskLevel: 0.5
-  celebrities:
-  - displayName: Jade Hollis
+  payoutAmount: 199
+  riskLevel: 0.3
+  targets:
+  - celebrity: {fileID: 0}
     targetAction: 1
-    payoutAmount: 245
+    payoutAmount: 199
   bodyguards:
-  - guardType: 0
-    followsCelebrityIndex: 0
-    bribeCost: 300
-    bribeSuccessChance: 0.35
-    bribeDisableDuration: 20
-    isIllegalZone: 1
   - guardType: 0
     followsCelebrityIndex: 0
     bribeCost: 300

@@ -1,9 +1,12 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
+    bool hqMode;
+
     [Header("Movement")]
     [SerializeField] float walkSpeed = 4f;
     [SerializeField] float sprintSpeed = 7f;
@@ -24,6 +27,7 @@ public class PlayerController : MonoBehaviour
     {
         cc = GetComponent<CharacterController>();
         input = new InputSystem_Actions();
+        hqMode = SceneManager.GetActiveScene().name == SceneLoader.HOME_SCENE;
     }
 
     void OnEnable() => input.Player.Enable();
@@ -31,6 +35,15 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        // In HQ mode, disable all player movement
+        if (hqMode)
+        {
+            if (cc.isGrounded) velocity.y = -2f;
+            velocity.y += gravity * Time.deltaTime;
+            cc.Move(velocity * Time.deltaTime);
+            return;
+        }
+
         // If no GameManager exists (e.g. HQ scene), default to Playing so movement works
         GameState state = GameManager.Instance?.CurrentState ?? GameState.Playing;
         bool canMove = state == GameState.Playing || state == GameState.CameraRaised || state == GameState.Escaping;
