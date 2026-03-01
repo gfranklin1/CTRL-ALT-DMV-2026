@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Animations;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
@@ -16,6 +17,7 @@ public class PlayerController : MonoBehaviour
     CharacterController cc;
     InputSystem_Actions input;
     Vector3 velocity;
+    Animator anim;
 
     public bool IsCrouching { get; private set; }
     public bool IsSprinting { get; private set; }
@@ -24,6 +26,7 @@ public class PlayerController : MonoBehaviour
     {
         cc = GetComponent<CharacterController>();
         input = new InputSystem_Actions();
+        anim = GetComponentInChildren<Animator>();
     }
 
     void OnEnable() => input.Player.Enable();
@@ -70,6 +73,9 @@ public class PlayerController : MonoBehaviour
 
         // Single Move call: horizontal + vertical combined to avoid double collision jitter
         cc.Move((move * speed + velocity) * Time.deltaTime);
+        float moveAmount = moveInput.magnitude;
+        anim.SetFloat("speed", moveAmount);
+        Debug.Log(moveAmount);
     }
 
     void ToggleCrouch()
