@@ -21,7 +21,13 @@ public class CelebrityController : MonoBehaviour
     [SerializeField] float suspiciousRotateSpeed = 2f;
     [SerializeField] float fleeingDelay = 1.5f;
 
+    [Header("Identity")]
+    [SerializeField] public string displayName = "Celebrity";
+    [SerializeField] public CelebrityAction targetAction = CelebrityAction.WavingAtFan;
+    [SerializeField] public int payoutAmount = 500;
+
     [Header("Visuals")]
+    [SerializeField] bool debugColors = true;
     [SerializeField] Renderer rend;
     [SerializeField] Color normalColor = Color.yellow;
     [SerializeField] Color suspiciousColor = Color.red;
@@ -31,13 +37,23 @@ public class CelebrityController : MonoBehaviour
     NavMeshAgent agent;
     CelebState state = CelebState.Patrolling;
     CelebrityAction currentAction = CelebrityAction.None;
-    CelebrityAction targetAction = CelebrityAction.None;
     Transform player;
     Vector3 baseScale;
     float scaleTimer;
 
     public CelebState State => state;
     public CelebrityAction CurrentAction => currentAction;
+
+    // Keep for backwards compat if anything calls it, but targetAction is now Inspector-set
+    public void SetTargetAction(CelebrityAction action) => targetAction = action;
+
+    public void Initialize(CelebrityDefinition def, WaypointPath path)
+    {
+        displayName  = def.displayName;
+        targetAction = def.targetAction;
+        payoutAmount = def.payoutAmount;
+        waypointPath = path;
+    }
 
     void Awake()
     {
@@ -49,11 +65,9 @@ public class CelebrityController : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player")?.transform;
-        if (rend != null) rend.material.color = normalColor;
+        if (debugColors && rend != null) rend.material.color = normalColor;
         TransitionToState(CelebState.Patrolling);
     }
-
-    public void SetTargetAction(CelebrityAction action) => targetAction = action;
 
     // Switches the celebrity to a new behavior state.
     // Stops all running coroutines first to prevent overlapping routines.
@@ -69,7 +83,7 @@ public class CelebrityController : MonoBehaviour
             case CelebState.Patrolling:
                 agent.isStopped = false;
                 agent.speed = patrolSpeed;
-                if (rend != null) rend.material.color = normalColor;
+                if (debugColors && rend != null) rend.material.color = normalColor;
                 currentAction = CelebrityAction.None;
                 transform.localScale = baseScale;
                 StartCoroutine(PatrolRoutine());
@@ -82,14 +96,14 @@ public class CelebrityController : MonoBehaviour
 
             case CelebState.Suspicious:
                 agent.isStopped = true;
-                if (rend != null) rend.material.color = suspiciousColor;
+                if (debugColors && rend != null) rend.material.color = suspiciousColor;
                 break;
 
             case CelebState.Fleeing:
                 agent.isStopped = true;
                 currentAction = CelebrityAction.None;
                 transform.localScale = baseScale;
-                if (rend != null) rend.material.color = fleeingColor;
+                if (debugColors && rend != null) rend.material.color = fleeingColor;
                 StartCoroutine(FleeRoutine());
                 break;
         }
@@ -118,7 +132,7 @@ public class CelebrityController : MonoBehaviour
 
     IEnumerator PerformActionRoutine()
     {
-        currentAction = targetAction != CelebrityAction.None ? targetAction : CelebrityAction.WavingAtFan;
+        currentAction = targetAction;
         float duration = Random.Range(actionDurationMin, actionDurationMax);
         float elapsed = 0f;
 

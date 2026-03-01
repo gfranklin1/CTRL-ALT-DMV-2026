@@ -38,6 +38,6 @@ public class PhotoResultUI : MonoBehaviour
         yield return new WaitForSeconds(2f);
         if (panel != null) panel.SetActive(false);
         if (GameManager.Instance?.CurrentState == GameState.PhotoTaken)
-            GameManager.Instance?.TransitionTo(GameState.Escaping);
+            GameManager.Instance?.TransitionTo(GameState.Playing);
     }
 }

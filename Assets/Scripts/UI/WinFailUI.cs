@@ -38,6 +38,7 @@ public class WinFailUI : MonoBehaviour
         }
         else if (state == GameState.Fail)
         {
+            RunData.ClearSessionPhotos();
             if (failPanel != null) failPanel.SetActive(true);
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;

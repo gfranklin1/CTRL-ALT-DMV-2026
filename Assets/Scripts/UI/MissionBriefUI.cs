@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using System.Collections;
 
 public class MissionBriefUI : MonoBehaviour
 {
@@ -35,11 +36,23 @@ public class MissionBriefUI : MonoBehaviour
         if (panel != null) panel.SetActive(state == GameState.MissionBrief);
     }
 
+    bool transitioning;
+
     void Update()
     {
         if (GameManager.Instance?.CurrentState != GameState.MissionBrief) return;
 
-        if (Keyboard.current.spaceKey.wasPressedThisFrame || Keyboard.current.eKey.wasPressedThisFrame)
-            GameManager.Instance?.TransitionTo(GameState.Playing);
+        if (!transitioning && (Keyboard.current.spaceKey.wasPressedThisFrame || Keyboard.current.eKey.wasPressedThisFrame))
+        {
+            transitioning = true;
+            StartCoroutine(BeginNextFrame());
+        }
+    }
+
+    // Delay by one frame so Jump input registered on the same keypress doesn't carry over
+    IEnumerator BeginNextFrame()
+    {
+        yield return null;
+        GameManager.Instance?.TransitionTo(GameState.Playing);
     }
 }

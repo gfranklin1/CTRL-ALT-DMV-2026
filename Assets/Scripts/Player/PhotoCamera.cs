@@ -32,14 +32,15 @@ public class PhotoCamera : MonoBehaviour
 
         GameState state = GameManager.Instance?.CurrentState ?? GameState.Playing;
 
-        // Raise camera when Interact is held in Playing state
-        if (state == GameState.Playing && input.Player.Interact.IsPressed())
+        // Raise camera on CameraZoom (right-click) while in Playing state
+        bool rightHeld = input.Player.CameraZoom.IsPressed();
+        if (state == GameState.Playing && !BribeUI.IsOpen && rightHeld)
         {
             CameraIsRaised = true;
             GameManager.Instance?.TransitionTo(GameState.CameraRaised);
         }
-        // Lower camera when Interact released while in CameraRaised state
-        else if (state == GameState.CameraRaised && !input.Player.Interact.IsPressed())
+        // Lower camera when right-click released while in CameraRaised state
+        else if (state == GameState.CameraRaised && !rightHeld)
         {
             CameraIsRaised = false;
             GameManager.Instance?.TransitionTo(GameState.Playing);
