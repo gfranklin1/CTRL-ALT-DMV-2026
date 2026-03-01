@@ -1,40 +1,40 @@
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "MissionRequest", menuName = "Scriptable Objects/MissionRequest")]
+public enum MissionModifier
+{
+    None,
+    TimeLimit,
+    MultipleCelebrities,
+    NoBribes,
+    Suspicious,
+    DoubleGuards
+}
 
+[CreateAssetMenu(fileName = "MissionRequest", menuName = "Paparazzi/Mission Request")]
 public class MissionRequest : ScriptableObject
 {
-    //Selected from common names list
+    [Header("Display")]
+    public string missionTitle;
+    [TextArea] public string briefText;
+
+    [Header("Origin")]
     public string employer;
-
-    //Selected from implemented job types
     public string jobType;
+    public MissionModifier modifier;
 
-    //Selected from implemented maps list
-    public string location;
+    [Header("Level")]
+    public string levelSceneName;
+    public float missionTime = 120f;
+    public bool sharedSuspicion = true;
+    [Range(0, 100)] public int minReputation = 0;
 
-    //Randomly generated based on multipliers from risklevel and modifiers
-    public int reward;
-
-    //Risk level generated based on job difficulty
+    [Header("Target")]
+    public string targetName;
+    public CelebrityAction targetAction = CelebrityAction.WavingAtFan;
+    public int payoutAmount;
     public float riskLevel;
 
-    //The name of the celebrity who we need to photograph
-    public string targetName;
-
-    //The type of modifier for added difficulty. NONE for no added modifier
-    public string modifier;
-
-    public void missionInit (string employer, string jobType, string location, int reward, float riskLevel, string targetName, string modifier)
-    {
-        this.employer = employer;
-        this.jobType = jobType;
-        this.location = location;
-        this.reward = reward;
-        this.riskLevel = riskLevel;
-        this.targetName = targetName;
-        this.modifier = modifier;
-    }
-
+    [Header("Spawning")]
+    public CelebrityDefinition[] celebrities;
+    public BodyguardDefinition[] bodyguards;
 }

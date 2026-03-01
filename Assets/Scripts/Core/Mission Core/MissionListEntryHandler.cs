@@ -10,11 +10,9 @@ public class MissionListEntryHandler
     // UI element references
     ListView missionList;
     GroupBox detailsGroup;
-    Label employerNameLabel;
     Label jobTypeLabel;
     Label locationLabel;
     Label rewardLabel;
-    Label riskLevelLabel;
     Label targetNameLabel;
     Label modifierLabel;
 
@@ -42,13 +40,11 @@ public class MissionListEntryHandler
         missionList = root.Q<ListView>("mission-list");
 
         // Store references to the selected character info elements
-        employerNameLabel = root.Q<Label>("employer-name");
         jobTypeLabel = root.Q<Label>("job-type");
-        locationLabel = root.Q<Label>("location");
-        rewardLabel = root.Q<Label>("reward");
-        riskLevelLabel = root.Q<Label>("risk-level");
-        targetNameLabel = root.Q<Label>("target-name");
-        modifierLabel = root.Q<Label>("modifier-name");
+        targetNameLabel   = root.Q<Label>("target-name");
+        locationLabel     = root.Q<Label>("location");
+        rewardLabel       = root.Q<Label>("reward");
+        modifierLabel     = root.Q<Label>("modifier-name");
 
         FillMissionList();
 
@@ -61,7 +57,12 @@ public class MissionListEntryHandler
     {
         allMissions = new List<MissionRequest>();
 
-        allMissions.AddRange(Resources.LoadAll<MissionRequest>("Missions"));
+        // Prefer live-generated missions from the manager; fall back to saved Resources assets
+        if (MissionRequestManager.Instance != null)
+            allMissions.AddRange(MissionRequestManager.Instance.GetMissions());
+
+        if (allMissions.Count == 0)
+            allMissions.AddRange(Resources.LoadAll<MissionRequest>("Missions"));
     }
 
     void FillMissionList()
@@ -106,25 +107,19 @@ public class MissionListEntryHandler
         // Handle none-selection (Escape to deselect everything)
         if (selectedMission == null)
         {
-            // Clear
-            employerNameLabel.text = "";
-            jobTypeLabel.text = "";
-            locationLabel.text = "";
-            rewardLabel.text = "";
-            riskLevelLabel.text = "";
-            targetNameLabel.text = "";
-            modifierLabel.text = "";
-
+            if (jobTypeLabel    != null) jobTypeLabel.text    = "";
+            if (targetNameLabel != null) targetNameLabel.text = "";
+            if (locationLabel   != null) locationLabel.text   = "";
+            if (rewardLabel     != null) rewardLabel.text     = "";
+            if (modifierLabel   != null) modifierLabel.text   = "";
             return;
         }
 
-        // Fill in mission details
-        employerNameLabel.text = selectedMission.employer;
-        jobTypeLabel.text = selectedMission.jobType;
-        locationLabel.text = selectedMission.location;
-        rewardLabel.text = selectedMission.reward + "";
-        riskLevelLabel.text = selectedMission.riskLevel + "";
-        targetNameLabel.text = selectedMission.targetName;
-        modifierLabel.text = selectedMission.modifier;
+        // Fill in mission details (labels may be null if not present in root UXML)
+        if (jobTypeLabel    != null) jobTypeLabel.text    = selectedMission.jobType;
+        if (targetNameLabel != null) targetNameLabel.text = (selectedMission.celebrities?.Length ?? 1).ToString();
+        if (locationLabel   != null) locationLabel.text   = selectedMission.levelSceneName;
+        if (rewardLabel     != null) rewardLabel.text     = "$" + selectedMission.payoutAmount;
+        if (modifierLabel   != null) modifierLabel.text   = selectedMission.modifier.ToString();
     }
 }

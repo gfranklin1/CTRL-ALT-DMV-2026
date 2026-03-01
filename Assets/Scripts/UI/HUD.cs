@@ -24,7 +24,7 @@ public class HUD : MonoBehaviour
         GameManager.OnStateChanged += OnStateChanged;
         OnStateChanged(GameManager.Instance?.CurrentState ?? GameState.MissionBrief);
 
-        MissionData mission = MissionManager.Instance?.CurrentMission;
+        MissionRequest mission = MissionManager.Instance?.CurrentMission;
         if (mission != null && objectiveText != null)
             objectiveText.text = $"OBJECTIVE: Photograph {mission.targetAction} — ${mission.payoutAmount} payout";
 

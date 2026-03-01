@@ -7,36 +7,32 @@ public class MissionListEntry
     // This function retrieves a reference to the 
     // character name label inside the UI element.
     GroupBox detailsGroup;
-    Label employerNameLabel;
     Label jobTypeLabel;
     Label locationLabel;
     Label rewardLabel;
-    Label riskLevelLabel;
     Label targetNameLabel;
     Label modifierLabel;
     public void SetButtonElement(VisualElement visualElement)
     {
-        //Map vars to UXML UI elements
-        detailsGroup = visualElement.Q<GroupBox>("details-group");
-        employerNameLabel = detailsGroup.Q<Label>("employer-name");
-        jobTypeLabel = detailsGroup.Q<Label>("job-type");
-        locationLabel = detailsGroup.Q<Label>("target-name");
-        rewardLabel = detailsGroup.Q<Label>("location");
-        riskLevelLabel = detailsGroup.Q<Label>("reward");
-        targetNameLabel = detailsGroup.Q<Label>("risk-level");
+        detailsGroup  = visualElement.Q<GroupBox>("details-group");
+        jobTypeLabel  = detailsGroup.Q<Label>("job-type");
+        targetNameLabel = detailsGroup.Q<Label>("target-name");
+        locationLabel = detailsGroup.Q<Label>("location");
+        rewardLabel   = detailsGroup.Q<Label>("reward");
         modifierLabel = detailsGroup.Q<Label>("modifier-name");
-
     }
 
     public void SetMissionData(MissionRequest missionData)
     {
-        employerNameLabel.text = "Employer: " + missionData.employer;
-        jobTypeLabel.text = "Job Desc: " + missionData.jobType;
-        locationLabel.text = "Place: " + missionData.location;
-        rewardLabel.text = "Reward: " + missionData.reward + "";
-        riskLevelLabel.text = "Risk: " + missionData.riskLevel + "";
-        targetNameLabel.text = "Target: " + missionData.targetName;
-        modifierLabel.text = "Modifier: " + missionData.modifier;
-
+        jobTypeLabel.text    = "Job: " + missionData.jobType;
+        targetNameLabel.text = "Targets: " + (missionData.celebrities?.Length ?? 1);
+        locationLabel.text   = "Place: " + missionData.levelSceneName;
+        rewardLabel.text     = "$" + missionData.payoutAmount + "  |  " + RiskLabel(missionData.riskLevel) + " Risk";
+        modifierLabel.text   = "Modifier: " + missionData.modifier;
     }
+
+    static string RiskLabel(float risk) =>
+        risk >= 0.9f ? "Extreme" :
+        risk >= 0.6f ? "High" :
+        risk >= 0.4f ? "Med" : "Low";
 }

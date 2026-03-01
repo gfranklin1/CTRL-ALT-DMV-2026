@@ -1,99 +1,203 @@
-using System.Data.SqlTypes;
-using Unity.VisualScripting;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering.Universal.Internal;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class MissionRequestManager : MonoBehaviour
 {
-    //Singleton stuff
     public static MissionRequestManager Instance { get; private set; }
 
-    //List of global static variables for data
-    //public static readonly string[] npcNames;
-    //public static readonly GameObject[] npcCelebrityObjects;
-    //public static readonly GameObject[] npcGuardObjects;
-    //public static readonly GameObject[] npcRegularObjects;
-    //public static readonly string[] jobTypes;
-    //public static readonly string[] locations;
-    //public static readonly string[] modifiers;
+    [Header("Mission Pool")]
     public string[] npcNames;
     public GameObject[] npcCelebrityObjects;
-    public GameObject[] npcGuardObjects;
-    public GameObject[] npcRegularObjects;
     public string[] jobTypes;
+    // Each entry should match a scene name in Build Settings
     public string[] locations;
-    public string[] modifiers;
 
-    //List of data we may use later
-    private int totalMoneyEarned = 0;
-    //private int reputation = 0;
-    private int day = 0;
+    // The mission the player clicked Deploy on — persists into the level scene
+    public MissionRequest SelectedMission { get; private set; }
+
+    readonly List<MissionRequest> activeMissions = new List<MissionRequest>();
 
     void Awake()
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
         DontDestroyOnLoad(gameObject);
+        GenerateXMissions(5);
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    // Returns the current active mission list for the board UI
+    public MissionRequest[] GetMissions() => activeMissions.ToArray();
+
+    // Called by MissionCard when the player hits Deploy
+    public void SelectMission(MissionRequest mr) => SelectedMission = mr;
+
+    public void MissionComplete(MissionRequest mr)
     {
-        //Create first mission
-        generateXMissions(5);
+        RunData.AddPayout(mr.payoutAmount);
+        activeMissions.Remove(mr);
     }
 
-    // Update is called once per frame
-    void Update()
+    public MissionRequest[] GenerateXMissions(int number)
     {
+        // Clean up old in-memory instances before creating new ones
+        foreach (var m in activeMissions)
+            if (m != null) Destroy(m);
+        activeMissions.Clear();
 
-    }
-
-    public void missionComplete(MissionRequest mr)
-    {
-        totalMoneyEarned += mr.reward;
-    }
-
-    public MissionRequest[] generateXMissions(int number)
-    {
-        MissionRequest[] missions = new MissionRequest[number];
+#if UNITY_EDITOR
+        ClearResourcesFolder();
+#endif
 
         for (int i = 0; i < number; i++)
         {
-            missions[i] = generateMission();
+            var mission = GenerateMission();
+            activeMissions.Add(mission);
+#if UNITY_EDITOR
+            SaveToResources(mission, i);
+#endif
         }
 
-        return missions;
+        return activeMissions.ToArray();
     }
 
-    public MissionRequest generateMission()
+    public MissionRequest GenerateMission()
     {
-        //Randomly generate mission params
-        string mEmployer = npcNames[Random.Range(0, npcNames.Length)];
-        string mJobType = jobTypes[Random.Range(0, jobTypes.Length)];
-
-        //This doesnt work probably I think vvv
-        string mTargetName = npcCelebrityObjects[Random.Range(0, npcCelebrityObjects.Length)].name;
-        
-        string mLocation = locations[Random.Range(0, locations.Length)];
-        string mModifier = modifiers[Random.Range(0, modifiers.Length)];
-        float mRisk = 0;
-
-        //Assign risk to certain modifiers
-        switch (mModifier)
+        if (npcNames.Length == 0 || jobTypes.Length == 0 || locations.Length == 0)
         {
-            default:
-                mRisk = 0;
-                break;
+            Debug.LogWarning("[MissionRequestManager] Arrays not populated in Inspector.");
+            return null;
         }
-        
-        //Reward calculation based on difficulty
-        int mReward = (int) (Random.Range(100, 300) * mRisk);
 
-        //Create the mission instance and initialize it
+        string mEmployer = npcNames[Random.Range(0, npcNames.Length)];
+        string mJobType  = jobTypes[Random.Range(0, jobTypes.Length)];
+        string mLocation = locations[Random.Range(0, locations.Length)];
+
+        // Pick a random modifier (including None)
+        var modValues  = (MissionModifier[])System.Enum.GetValues(typeof(MissionModifier));
+        MissionModifier mModifier = modValues[Random.Range(0, modValues.Length)];
+
+        // Pull display name from CelebrityController if available, fall back to npcNames
+        string mTargetName = npcNames[Random.Range(0, npcNames.Length)];
+        if (npcCelebrityObjects.Length > 0)
+        {
+            var obj  = npcCelebrityObjects[Random.Range(0, npcCelebrityObjects.Length)];
+            var ctrl = obj != null ? obj.GetComponent<CelebrityController>() : null;
+            mTargetName = ctrl != null ? ctrl.displayName : (obj != null ? obj.name : mTargetName);
+        }
+
+        // Base risk determined by modifier
+        float mRisk = mModifier switch
+        {
+            MissionModifier.DoubleGuards        => 0.7f,
+            MissionModifier.NoBribes            => 0.6f,
+            MissionModifier.MultipleCelebrities => 0.5f,
+            MissionModifier.Suspicious          => 0.5f,
+            MissionModifier.TimeLimit           => 0.5f,
+            _                                   => 0.3f
+        };
+
+        // Reward multiplier from modifier (riskier job = more payout)
+        float modMult = mModifier switch
+        {
+            MissionModifier.MultipleCelebrities => 1.5f,
+            MissionModifier.DoubleGuards        => 1.4f,
+            MissionModifier.TimeLimit           => 1.3f,
+            MissionModifier.NoBribes            => 1.2f,
+            MissionModifier.Suspicious          => 1.2f,
+            _                                   => 1.0f
+        };
+
+        int baseReward = Mathf.RoundToInt(Random.Range(100, 500) * (1f + mRisk));
+        int mReward    = Mathf.RoundToInt(baseReward * modMult);
+
+        // Pick a random non-None action
+        var actionValues   = (CelebrityAction[])System.Enum.GetValues(typeof(CelebrityAction));
+        var nonNoneActions = System.Array.FindAll(actionValues, a => a != CelebrityAction.None);
+        CelebrityAction mAction = nonNoneActions[Random.Range(0, nonNoneActions.Length)];
+
+        // Build celebrity list — MultipleCelebrities adds a second target
+        bool multiCeleb = mModifier == MissionModifier.MultipleCelebrities;
+        var celebDefs   = new CelebrityDefinition[multiCeleb ? 2 : 1];
+        celebDefs[0]    = new CelebrityDefinition { displayName = mTargetName, targetAction = mAction, payoutAmount = mReward };
+        if (multiCeleb)
+        {
+            string secondName   = npcNames[Random.Range(0, npcNames.Length)];
+            CelebrityAction act2 = nonNoneActions[Random.Range(0, nonNoneActions.Length)];
+            celebDefs[1] = new CelebrityDefinition { displayName = secondName, targetAction = act2, payoutAmount = Mathf.RoundToInt(mReward * 0.8f) };
+        }
+
+        // Build bodyguard list — DoubleGuards doubles count, NoBribes zeroes bribe chance
+        int guardCount = Mathf.Max(1, Mathf.RoundToInt(mRisk * 3f));
+        if (mModifier == MissionModifier.DoubleGuards) guardCount *= 2;
+        bool noBribes  = mModifier == MissionModifier.NoBribes;
+        var guardDefs  = new BodyguardDefinition[guardCount];
+        for (int i = 0; i < guardCount; i++)
+        {
+            guardDefs[i] = new BodyguardDefinition();
+            if (noBribes) guardDefs[i].bribeSuccessChance = 0f;
+        }
+
+        // TimeLimit halves the available time
+        float mTime = Mathf.Lerp(180f, 60f, mRisk);
+        if (mModifier == MissionModifier.TimeLimit) mTime *= 0.5f;
+
+        string displayTarget = multiCeleb ? $"{mTargetName} + {celebDefs[1].displayName}" : mTargetName;
+        string title = $"{mJobType}: {displayTarget}";
+        string brief = $"Get a shot of {displayTarget} at {mLocation}. Client: {mEmployer}.";
+        if (mModifier != MissionModifier.None) brief += $" Warning: {mModifier}.";
+
         MissionRequest mission = ScriptableObject.CreateInstance<MissionRequest>();
-        mission.missionInit(mEmployer, mJobType, mLocation, mReward, mRisk, mTargetName, mModifier);
+        mission.name           = title;
+        mission.missionTitle   = title;
+        mission.briefText      = brief;
+        mission.employer       = mEmployer;
+        mission.jobType        = mJobType;
+        mission.modifier       = mModifier;
+        mission.levelSceneName = mLocation;
+        mission.payoutAmount   = mReward;
+        mission.riskLevel      = mRisk;
+        mission.targetName     = displayTarget;
+        mission.targetAction   = mAction;
+        mission.celebrities    = celebDefs;
+        mission.bodyguards     = guardDefs;
+        mission.missionTime    = mTime;
+        mission.minReputation  = Mathf.RoundToInt(mRisk * 60f);
+        mission.sharedSuspicion = true;
 
         return mission;
     }
+
+#if UNITY_EDITOR
+    void ClearResourcesFolder()
+    {
+        const string folder = "Assets/Resources/Missions";
+        if (AssetDatabase.IsValidFolder(folder))
+        {
+            foreach (var guid in AssetDatabase.FindAssets("t:MissionRequest", new[] { folder }))
+                AssetDatabase.DeleteAsset(AssetDatabase.GUIDToAssetPath(guid));
+        }
+        else
+        {
+            System.IO.Directory.CreateDirectory(folder);
+            AssetDatabase.Refresh();
+        }
+    }
+
+    void SaveToResources(MissionRequest mission, int index)
+    {
+        const string folder = "Assets/Resources/Missions";
+        if (!AssetDatabase.IsValidFolder(folder))
+        {
+            System.IO.Directory.CreateDirectory(folder);
+            AssetDatabase.Refresh();
+        }
+        // Clone so we don't save the same in-memory instance; the copy lives on disk
+        var asset = Instantiate(mission);
+        AssetDatabase.CreateAsset(asset, $"{folder}/Mission_{index}.asset");
+        AssetDatabase.SaveAssets();
+    }
+#endif
 }

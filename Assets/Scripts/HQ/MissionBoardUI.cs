@@ -27,7 +27,7 @@ public class MissionBoardUI : MonoBehaviour
         MissionBoard.OnBoardClosed -= Hide;
     }
 
-    void Show(MissionData[] missions)
+    void Show(MissionRequest[] missions)
     {
         if (panel != null)
             panel.SetActive(true);
@@ -44,19 +44,19 @@ public class MissionBoardUI : MonoBehaviour
 
     // Destroys old cards and instantiates fresh ones from the missions array.
     // Each card is a prefab with a MissionCard component that wires up its own UI.
-    void PopulateCards(MissionData[] missions)
+    void PopulateCards(MissionRequest[] missions)
     {
         if (cardContainer == null || missionCardPrefab == null) return;
 
         foreach (Transform child in cardContainer)
             Destroy(child.gameObject);
 
-        var available = new System.Collections.Generic.List<MissionData>();
+        var available = new System.Collections.Generic.List<MissionRequest>();
         foreach (var m in missions)
             if (RunData.Reputation >= m.minReputation)
                 available.Add(m);
 
-        foreach (MissionData mission in available)
+        foreach (MissionRequest mission in available)
         {
             GameObject card = Instantiate(missionCardPrefab, cardContainer);
             MissionCard mc = card.GetComponent<MissionCard>();

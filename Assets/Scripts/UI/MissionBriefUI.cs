@@ -17,13 +17,19 @@ public class MissionBriefUI : MonoBehaviour
         GameManager.OnStateChanged += OnStateChanged;
         OnStateChanged(GameManager.Instance?.CurrentState ?? GameState.MissionBrief);
 
-        MissionData mission = MissionManager.Instance?.CurrentMission;
+        MissionRequest mission = MissionManager.Instance?.CurrentMission;
         if (mission != null)
         {
             if (titleText != null) titleText.text = mission.missionTitle.ToUpper();
             if (briefText != null) briefText.text = mission.briefText;
-            if (actionText != null) actionText.text = $"TARGET ACTION: {mission.targetAction}";
-            if (payoutText != null) payoutText.text = $"PAYOUT: ${mission.payoutAmount}";
+            if (actionText != null)
+            {
+                int targetCount = mission.celebrities?.Length ?? 1;
+                string modStr = mission.modifier != MissionModifier.None ? $"  |  MODIFIER: {mission.modifier}" : "";
+                actionText.text = $"ACTION: {mission.targetAction}  |  TARGETS: {targetCount}{modStr}";
+            }
+            if (payoutText != null)
+                payoutText.text = $"PAYOUT: ${mission.payoutAmount}  |  CLIENT: {mission.employer}";
         }
 
         if (promptText != null) promptText.text = "Press SPACE or E to begin";
