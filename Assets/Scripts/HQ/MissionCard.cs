@@ -14,7 +14,15 @@ public class MissionCard : MonoBehaviour
     {
         if (titleText != null)  titleText.text = data.missionTitle.ToUpper();
         if (actionText != null) actionText.text = data.targetAction.ToString();
-        if (payoutText != null) payoutText.text = $"${data.payoutAmount}";
+        if (payoutText != null)
+        {
+            float mult = RunData.PayoutMultiplier;
+            int adj = Mathf.RoundToInt(data.payoutAmount * mult);
+            string tag = mult >= 1.05f ? $"  (+{(int)((mult-1)*100)}% rep)"
+                       : mult <= 0.95f ? $"  (-{(int)((1-mult)*100)}% rep)"
+                       : "";
+            payoutText.text = $"${adj}{tag}";
+        }
 
         if (deployButton != null)
             deployButton.onClick.AddListener(() =>

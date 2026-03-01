@@ -17,3 +17,17 @@ MonoBehaviour:
   targetAction: 1
   payoutAmount: 500
   levelSceneName: SampleScene
+  missionTime: 120
+  sharedSuspicion: 1
+  celebrities:
+  - displayName: Celebrity 1
+    targetAction: 1
+    payoutAmount: 500
+  - displayName: Celebrity 2
+    targetAction: 2
+    payoutAmount: 750
+  bodyguards:
+  - guardType: 0
+    followsCelebrityIndex: 0
+  - guardType: 1
+    followsCelebrityIndex: 0
