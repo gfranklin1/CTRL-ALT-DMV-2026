@@ -11,6 +11,7 @@ public class HUD : MonoBehaviour
     [SerializeField] GameObject viewfinderBorder;
     [SerializeField] Text objectiveText;
     [SerializeField] CanvasGroup flashOverlay;
+    [SerializeField] Text timerText;
 
     void Awake()
     {
@@ -38,6 +39,19 @@ public class HUD : MonoBehaviour
             viewfinderBorder.SetActive(state == GameState.CameraRaised);
         if (crosshair != null)
             crosshair.SetActive(state == GameState.Playing || state == GameState.Escaping);
+        if (timerText != null)
+            timerText.gameObject.SetActive(state != GameState.MissionBrief &&
+                                           state != GameState.Win &&
+                                           state != GameState.Fail);
+    }
+
+    public void SetTimer(float seconds)
+    {
+        if (timerText == null) return;
+        int m = Mathf.FloorToInt(seconds / 60f);
+        int s = Mathf.FloorToInt(seconds % 60f);
+        timerText.text = $"{m}:{s:D2}";
+        timerText.color = seconds <= 15f ? Color.red : Color.white;
     }
 
     public void ShowFlash()

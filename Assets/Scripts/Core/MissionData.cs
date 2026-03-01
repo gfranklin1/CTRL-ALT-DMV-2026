@@ -15,4 +15,6 @@ public class MissionData : ScriptableObject
     public CelebrityAction targetAction = CelebrityAction.WavingAtFan;
     public int payoutAmount = 500;
     public string levelSceneName = "SampleScene";
+    public float missionTime = 120f;
+    public bool sharedSuspicion = true;
 }

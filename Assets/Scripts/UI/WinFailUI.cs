@@ -27,7 +27,7 @@ public class WinFailUI : MonoBehaviour
     {
         if (state == GameState.Win)
         {
-            int payout = RunData.LastResult?.payout ?? 0;
+            int payout = RunData.TotalSessionPayout;
             if (winPayoutText != null)
                 winPayoutText.text = $"PAYOUT: ${payout}";
             if (winPanel != null) winPanel.SetActive(true);
@@ -44,8 +44,8 @@ public class WinFailUI : MonoBehaviour
 
     void GoHome()
     {
-        // Bank the payout from this mission before returning to HQ
-        RunData.AddPayout(RunData.LastResult?.payout ?? 0);
+        // Bank total session payout (all shots taken this run) before returning to HQ
+        RunData.AddPayout(RunData.TotalSessionPayout);
         SceneLoader.Instance?.LoadHome();
     }
 
