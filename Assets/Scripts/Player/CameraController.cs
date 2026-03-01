@@ -39,7 +39,8 @@ public class CameraController : MonoBehaviour
     {
         GameState state = GameManager.Instance?.CurrentState ?? GameState.Playing;
 
-        bool needsCursor = state == GameState.MissionBrief || state == GameState.Win || state == GameState.Fail;
+        bool boardOpen = MissionBoard.Instance != null && MissionBoard.Instance.IsOpen;
+        bool needsCursor = boardOpen || state == GameState.MissionBrief || state == GameState.Win || state == GameState.Fail;
         if (needsCursor != prevNeedsCursor)
         {
             Cursor.lockState = needsCursor ? CursorLockMode.None : CursorLockMode.Locked;
@@ -52,7 +53,8 @@ public class CameraController : MonoBehaviour
     void LateUpdate()
     {
         GameState state = GameManager.Instance?.CurrentState ?? GameState.Playing;
-        bool canLook = state == GameState.Playing || state == GameState.CameraRaised || state == GameState.Escaping;
+        bool boardOpen = MissionBoard.Instance != null && MissionBoard.Instance.IsOpen;
+        bool canLook = !boardOpen && (state == GameState.Playing || state == GameState.CameraRaised || state == GameState.Escaping);
 
         if (!canLook) return;
 
