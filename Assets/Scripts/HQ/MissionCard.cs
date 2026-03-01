@@ -12,15 +12,36 @@ public class MissionCard : MonoBehaviour
     // Populates the UI text and wires the Deploy button to load the mission's scene.
     public void Init(MissionData data)
     {
-        if (titleText != null)  titleText.text = data.missionTitle.ToUpper();
-        if (actionText != null) actionText.text = data.targetAction.ToString();
+        if (titleText != null) titleText.text = data.missionTitle.ToUpper();
+
+        if (actionText != null)
+        {
+            if (data.targets == null || data.targets.Length == 0)
+                actionText.text = "NO TARGETS";
+            else if (data.targets.Length <= 2)
+            {
+                var sb = new System.Text.StringBuilder();
+                for (int i = 0; i < data.targets.Length; i++)
+                {
+                    if (i > 0) sb.Append(" + ");
+                    sb.Append(data.targets[i].targetAction.ToString().ToUpper());
+                }
+                actionText.text = sb.ToString();
+            }
+            else
+                actionText.text = $"{data.targets.Length} TARGETS";
+        }
+
         if (payoutText != null)
         {
-            float mult = RunData.PayoutMultiplier;
-            int adj = Mathf.RoundToInt(data.payoutAmount * mult);
-            string tag = mult >= 1.05f ? $"  (+{(int)((mult-1)*100)}% rep)"
-                       : mult <= 0.95f ? $"  (-{(int)((1-mult)*100)}% rep)"
-                       : "";
+            float mult  = RunData.PayoutMultiplier;
+            int   total = 0;
+            if (data.targets != null)
+                foreach (var t in data.targets) total += t.payoutAmount;
+            int   adj   = Mathf.RoundToInt(total * mult);
+            string tag  = mult >= 1.05f ? $"  (+{(int)((mult-1)*100)}% rep)"
+                        : mult <= 0.95f ? $"  (-{(int)((1-mult)*100)}% rep)"
+                        : "";
             payoutText.text = $"${adj}{tag}";
         }
 
