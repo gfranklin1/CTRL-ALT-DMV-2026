@@ -153,7 +153,10 @@ public class CelebrityController : MonoBehaviour
     IEnumerator FleeRoutine()
     {
         yield return new WaitForSeconds(fleeingDelay);
-        GameManager.Instance?.TransitionTo(GameState.Fail);
+        if (JailSystem.Instance != null)
+            JailSystem.Instance.HandleBust();
+        else
+            GameManager.Instance?.TransitionTo(GameState.Fail);
     }
 
     // Called by DetectionZone when the player enters/exits the celebrity's awareness radius

@@ -8,7 +8,8 @@ public enum GameState
     PhotoTaken,
     Escaping,
     Win,
-    Fail
+    Fail,
+    Jailed
 }
 
 // Central state machine for the game. Only exists in level scenes (not HQ).
