@@ -10,7 +10,8 @@ public class SuspicionSystem : MonoBehaviour
     float suspicion;
     bool isBusted;
 
-    CelebrityController celeb;
+    CelebrityController _celeb;
+    CelebrityController celeb => _celeb != null ? _celeb : (_celeb = FindFirstObjectByType<CelebrityController>());
     PlayerController player;
     CrowdNPC[] crowd;
 
@@ -25,9 +26,15 @@ public class SuspicionSystem : MonoBehaviour
 
     void Start()
     {
-        celeb = FindFirstObjectByType<CelebrityController>();
         player = FindFirstObjectByType<PlayerController>();
         crowd = FindObjectsByType<CrowdNPC>(FindObjectsSortMode.None);
+    }
+
+    // Instantly add a fixed amount of suspicion (e.g. failed bribe penalty).
+    public void AddFlatSuspicion(float amount)
+    {
+        if (isBusted) return;
+        suspicion = Mathf.Clamp01(suspicion + amount);
     }
 
     // Called by DetectionZone each frame when detection conditions are met.
@@ -66,6 +73,7 @@ public class SuspicionSystem : MonoBehaviour
             if (nearbyNPCs >= 2) mult *= 0.6f;
         }
 
+        mult *= RunData.SuspicionRateMultiplier;
         suspicion = Mathf.Clamp01(suspicion + ratePerSecond * mult * Time.deltaTime);
     }
 

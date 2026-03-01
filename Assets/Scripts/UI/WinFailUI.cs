@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
@@ -28,7 +29,7 @@ public class WinFailUI : MonoBehaviour
     {
         if (state == GameState.Win)
         {
-            int payout = RunData.LastResult?.payout ?? 0;
+            int payout = RunData.TotalSessionPayout;
             if (winPayoutText != null)
                 winPayoutText.text = $"PAYOUT: ${payout}";
             if (winPanel != null) winPanel.SetActive(true);
@@ -38,6 +39,9 @@ public class WinFailUI : MonoBehaviour
         }
         else if (state == GameState.Fail)
         {
+            RunData.ChangeReputation(-10);
+            RunData.Save();
+            RunData.ClearSessionPhotos();
             if (failPanel != null) failPanel.SetActive(true);
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
@@ -47,14 +51,27 @@ public class WinFailUI : MonoBehaviour
 
     void GoHome()
     {
-        // Bank the payout from this mission before returning to HQ
-        RunData.AddPayout(RunData.LastResult?.payout ?? 0);
+        // Best grade per celebrity → rep delta
+        var bestGrade = new Dictionary<string, string>();
+        foreach (var r in RunData.SessionResults)
+        {
+            if (string.IsNullOrEmpty(r.celebName)) continue;
+            if (!bestGrade.ContainsKey(r.celebName) ||
+                GradeRank(r.gradeLabel) > GradeRank(bestGrade[r.celebName]))
+                bestGrade[r.celebName] = r.gradeLabel;
+        }
+        foreach (var g in bestGrade.Values)
+            RunData.ChangeReputation(RunData.RepDeltaForGrade(g));
+
+        RunData.AddPayout(RunData.TotalSessionPayout);
+        RunData.Save();
         SceneLoader.Instance?.LoadHome();
     }
 
     void Retreat()
     {
-        // Go home without banking any payout (player chose to retreat after failing)
+        RunData.ChangeReputation(-5);
+        RunData.Save();
         SceneLoader.Instance?.LoadHome();
     }
 
@@ -62,4 +79,11 @@ public class WinFailUI : MonoBehaviour
     {
         SceneLoader.Instance?.ReloadCurrent();
     }
+
+    int GradeRank(string g) => g switch {
+        "MONEY SHOT"  => 3,
+        "PUBLISHABLE" => 2,
+        "WEAK"        => 1,
+        _             => 0
+    };
 }

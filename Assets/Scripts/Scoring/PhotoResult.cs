@@ -7,4 +7,5 @@ public class PhotoResult
     public float totalScore;
     public int payout;
     public string gradeLabel = "USELESS";
+    public string celebName = "";
 }

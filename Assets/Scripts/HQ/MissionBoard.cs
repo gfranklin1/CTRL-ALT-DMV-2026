@@ -17,6 +17,8 @@ public class MissionBoard : MonoBehaviour
     CameraController cameraController;
     PlayerController playerController;
     InputSystem_Actions input;
+    public bool IsOpen => boardOpen;
+
     bool boardOpen;
     bool wasInRange;
 

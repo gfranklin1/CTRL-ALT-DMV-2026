@@ -11,6 +11,7 @@ public class HUD : MonoBehaviour
     [SerializeField] GameObject viewfinderBorder;
     [SerializeField] Text objectiveText;
     [SerializeField] CanvasGroup flashOverlay;
+    [SerializeField] Text timerText;
 
     void Awake()
     {
@@ -25,7 +26,19 @@ public class HUD : MonoBehaviour
 
         MissionData mission = MissionManager.Instance?.CurrentMission;
         if (mission != null && objectiveText != null)
-            objectiveText.text = $"OBJECTIVE: Photograph {mission.targetAction} — ${mission.payoutAmount} payout";
+        {
+            if (mission.targets != null && mission.targets.Length > 0)
+            {
+                int total = 0;
+                foreach (var t in mission.targets) total += t.payoutAmount;
+                string acts = mission.targets.Length == 1
+                    ? mission.targets[0].targetAction.ToString()
+                    : $"{mission.targets.Length} targets";
+                objectiveText.text = $"OBJECTIVE: {acts} — ${total} payout";
+            }
+            else
+                objectiveText.text = "OBJECTIVE: Get the shot";
+        }
 
         if (flashOverlay != null) flashOverlay.alpha = 0f;
     }
@@ -38,6 +51,19 @@ public class HUD : MonoBehaviour
             viewfinderBorder.SetActive(state == GameState.CameraRaised);
         if (crosshair != null)
             crosshair.SetActive(state == GameState.Playing || state == GameState.Escaping);
+        if (timerText != null)
+            timerText.gameObject.SetActive(state != GameState.MissionBrief &&
+                                           state != GameState.Win &&
+                                           state != GameState.Fail);
+    }
+
+    public void SetTimer(float seconds)
+    {
+        if (timerText == null) return;
+        int m = Mathf.FloorToInt(seconds / 60f);
+        int s = Mathf.FloorToInt(seconds % 60f);
+        timerText.text = $"{m}:{s:D2}";
+        timerText.color = seconds <= 15f ? Color.red : Color.white;
     }
 
     public void ShowFlash()
