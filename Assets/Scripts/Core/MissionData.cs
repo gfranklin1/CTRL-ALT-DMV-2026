@@ -22,9 +22,9 @@ public enum CelebrityAction
 }
 
 [System.Serializable]
-public class CelebrityDefinition
+public class CelebrityTarget
 {
-    public string displayName = "Celebrity";
+    public CelebrityData celebrity;
     public CelebrityAction targetAction = CelebrityAction.WavingAtFan;
     public int payoutAmount = 500;
 }
@@ -34,14 +34,12 @@ public class MissionData : ScriptableObject
 {
     public string missionTitle = "Hot Shot";
     [TextArea] public string briefText = "Get the shot. Don't get caught.";
-    public CelebrityAction targetAction = CelebrityAction.WavingAtFan;
-    public int payoutAmount = 500;
     public string levelSceneName = "SampleScene";
     public float missionTime = 120f;
     public bool sharedSuspicion = true;
     [Header("Reputation")]
     [Range(0, 100)]
     public int minReputation = 0;
-    public CelebrityDefinition[] celebrities;
+    public CelebrityTarget[] targets;
     public BodyguardDefinition[] bodyguards;
 }

@@ -26,7 +26,19 @@ public class HUD : MonoBehaviour
 
         MissionRequest mission = MissionManager.Instance?.CurrentMission;
         if (mission != null && objectiveText != null)
-            objectiveText.text = $"OBJECTIVE: Photograph {mission.targetAction} — ${mission.payoutAmount} payout";
+        {
+            if (mission.targets != null && mission.targets.Length > 0)
+            {
+                int total = 0;
+                foreach (var t in mission.targets) total += t.payoutAmount;
+                string acts = mission.targets.Length == 1
+                    ? mission.targets[0].targetAction.ToString()
+                    : $"{mission.targets.Length} targets";
+                objectiveText.text = $"OBJECTIVE: {acts} — ${total} payout";
+            }
+            else
+                objectiveText.text = "OBJECTIVE: Get the shot";
+        }
 
         if (flashOverlay != null) flashOverlay.alpha = 0f;
     }

@@ -47,11 +47,11 @@ public class CelebrityController : MonoBehaviour
     // Keep for backwards compat if anything calls it, but targetAction is now Inspector-set
     public void SetTargetAction(CelebrityAction action) => targetAction = action;
 
-    public void Initialize(CelebrityDefinition def, WaypointPath path)
+    public void Initialize(CelebrityTarget target, WaypointPath path)
     {
-        displayName = def.displayName;
-        targetAction = def.targetAction;
-        payoutAmount = def.payoutAmount;
+        displayName  = target.celebrity?.displayName ?? "Unknown";
+        targetAction = target.targetAction;
+        payoutAmount = target.payoutAmount;
         waypointPath = path;
     }
 
