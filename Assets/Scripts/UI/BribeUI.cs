@@ -92,7 +92,10 @@ public class BribeUI : MonoBehaviour
         if (resultText != null) resultText.text = "BUSTED!";
         yield return new WaitForSeconds(1.5f);
         FinishClose();
-        GameManager.Instance?.TransitionTo(GameState.Fail);
+        if (JailSystem.Instance != null)
+            JailSystem.Instance.HandleIllegalBust();
+        else
+            GameManager.Instance?.TransitionTo(GameState.Fail);
     }
 
     void FinishClose()

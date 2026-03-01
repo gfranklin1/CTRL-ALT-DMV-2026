@@ -12,24 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efe2b64725b98b04fb141cc66a6e2e90, type: 3}
   m_Name: Mission_3
   m_EditorClassIdentifier: Assembly-CSharp::MissionRequest
-  missionTitle: 'Backstage Reveal: Remy Dalton'
-  briefText: 'Get a shot of Remy Dalton at SampleScene. Client: Suki Laroche. Warning:
+  missionTitle: 'Street Candid: Jade Hollis'
+  briefText: 'Get a shot of Jade Hollis at SampleScene. Client: Nadia Bloom. Warning:
     Suspicious.'
-  employer: Suki Laroche
-  jobType: Backstage Reveal
+  employer: Nadia Bloom
+  jobType: Street Candid
   modifier: 4
   levelSceneName: SampleScene
   missionTime: 120
   sharedSuspicion: 1
   minReputation: 30
-  targetName: Remy Dalton
-  targetAction: 2
-  payoutAmount: 312
+  targetName: Jade Hollis
+  targetAction: 1
+  payoutAmount: 245
   riskLevel: 0.5
   celebrities:
-  - displayName: Remy Dalton
-    targetAction: 2
-    payoutAmount: 312
+  - displayName: Jade Hollis
+    targetAction: 1
+    payoutAmount: 245
   bodyguards:
   - guardType: 0
     followsCelebrityIndex: 0

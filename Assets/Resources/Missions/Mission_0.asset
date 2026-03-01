@@ -12,24 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efe2b64725b98b04fb141cc66a6e2e90, type: 3}
   m_Name: Mission_0
   m_EditorClassIdentifier: Assembly-CSharp::MissionRequest
-  missionTitle: 'Poolside Candid: Marco Vega'
-  briefText: 'Get a shot of Marco Vega at SampleScene. Client: Nadia Bloom. Warning:
-    TimeLimit.'
-  employer: Nadia Bloom
-  jobType: Poolside Candid
-  modifier: 1
+  missionTitle: 'Backstage Reveal: Victor Cruz'
+  briefText: 'Get a shot of Victor Cruz at SampleScene. Client: Jade Hollis. Warning:
+    Suspicious.'
+  employer: Jade Hollis
+  jobType: Backstage Reveal
+  modifier: 4
   levelSceneName: SampleScene
-  missionTime: 60
+  missionTime: 120
   sharedSuspicion: 1
   minReputation: 30
-  targetName: Marco Vega
-  targetAction: 2
-  payoutAmount: 398
+  targetName: Victor Cruz
+  targetAction: 1
+  payoutAmount: 358
   riskLevel: 0.5
   celebrities:
-  - displayName: Marco Vega
-    targetAction: 2
-    payoutAmount: 398
+  - displayName: Victor Cruz
+    targetAction: 1
+    payoutAmount: 358
   bodyguards:
   - guardType: 0
     followsCelebrityIndex: 0
