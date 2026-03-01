@@ -12,23 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efe2b64725b98b04fb141cc66a6e2e90, type: 3}
   m_Name: Mission_3
   m_EditorClassIdentifier: Assembly-CSharp::MissionRequest
-  missionTitle: 'Paparazzi Ambush: Jade Hollis'
-  briefText: 'Get a shot of Jade Hollis at SampleScene. Client: Marco Vega.'
-  employer: Marco Vega
-  jobType: Paparazzi Ambush
+  missionTitle: 'Handshake Photo: Unknown'
+  briefText: 'Get a shot of Unknown at SampleScene. Client: Jade Hollis.'
+  employer: Jade Hollis
+  jobType: Handshake Photo
   modifier: 0
   levelSceneName: SampleScene
   missionTime: 144
   sharedSuspicion: 1
   minReputation: 18
-  targetName: Jade Hollis
+  targetName: Unknown
   targetAction: 1
-  payoutAmount: 472
+  payoutAmount: 199
   riskLevel: 0.3
-  celebrities:
-  - displayName: Jade Hollis
+  targets:
+  - celebrity: {fileID: 0}
     targetAction: 1
-    payoutAmount: 472
+    payoutAmount: 199
   bodyguards:
   - guardType: 0
     followsCelebrityIndex: 0

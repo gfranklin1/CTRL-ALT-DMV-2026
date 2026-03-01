@@ -12,34 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efe2b64725b98b04fb141cc66a6e2e90, type: 3}
   m_Name: Mission_1
   m_EditorClassIdentifier: Assembly-CSharp::MissionRequest
-  missionTitle: 'Backstage Reveal: Nadia Bloom + Suki Laroche'
-  briefText: 'Get a shot of Nadia Bloom + Suki Laroche at SampleScene. Client: Victor
-    Cruz. Warning: MultipleCelebrities.'
-  employer: Victor Cruz
-  jobType: Backstage Reveal
-  modifier: 2
+  missionTitle: 'Coffee Sip Shot: Unknown'
+  briefText: 'Get a shot of Unknown at SampleScene. Client: Suki Laroche.'
+  employer: Suki Laroche
+  jobType: Coffee Sip Shot
+  modifier: 0
   levelSceneName: SampleScene
-  missionTime: 120
+  missionTime: 144
   sharedSuspicion: 1
-  minReputation: 30
-  targetName: Nadia Bloom + Suki Laroche
+  minReputation: 18
+  targetName: Unknown
   targetAction: 1
-  payoutAmount: 840
-  riskLevel: 0.5
-  celebrities:
-  - displayName: Nadia Bloom
+  payoutAmount: 595
+  riskLevel: 0.3
+  targets:
+  - celebrity: {fileID: 0}
     targetAction: 1
-    payoutAmount: 840
-  - displayName: Suki Laroche
-    targetAction: 1
-    payoutAmount: 672
+    payoutAmount: 595
   bodyguards:
-  - guardType: 0
-    followsCelebrityIndex: 0
-    bribeCost: 300
-    bribeSuccessChance: 0.35
-    bribeDisableDuration: 20
-    isIllegalZone: 1
   - guardType: 0
     followsCelebrityIndex: 0
     bribeCost: 300

@@ -12,43 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efe2b64725b98b04fb141cc66a6e2e90, type: 3}
   m_Name: Mission_4
   m_EditorClassIdentifier: Assembly-CSharp::MissionRequest
-  missionTitle: 'Red Carpet Arrival: Suki Laroche'
-  briefText: 'Get a shot of Suki Laroche at SampleScene. Client: Jade Hollis. Warning:
-    DoubleGuards.'
+  missionTitle: 'Paparazzi Ambush: Unknown'
+  briefText: 'Get a shot of Unknown at SampleScene. Client: Jade Hollis.'
   employer: Jade Hollis
-  jobType: Red Carpet Arrival
-  modifier: 5
+  jobType: Paparazzi Ambush
+  modifier: 0
   levelSceneName: SampleScene
-  missionTime: 96
+  missionTime: 144
   sharedSuspicion: 1
-  minReputation: 42
-  targetName: Suki Laroche
-  targetAction: 1
-  payoutAmount: 452
-  riskLevel: 0.7
-  celebrities:
-  - displayName: Suki Laroche
-    targetAction: 1
-    payoutAmount: 452
+  minReputation: 18
+  targetName: Unknown
+  targetAction: 2
+  payoutAmount: 237
+  riskLevel: 0.3
+  targets:
+  - celebrity: {fileID: 0}
+    targetAction: 2
+    payoutAmount: 237
   bodyguards:
-  - guardType: 0
-    followsCelebrityIndex: 0
-    bribeCost: 300
-    bribeSuccessChance: 0.35
-    bribeDisableDuration: 20
-    isIllegalZone: 1
-  - guardType: 0
-    followsCelebrityIndex: 0
-    bribeCost: 300
-    bribeSuccessChance: 0.35
-    bribeDisableDuration: 20
-    isIllegalZone: 1
-  - guardType: 0
-    followsCelebrityIndex: 0
-    bribeCost: 300
-    bribeSuccessChance: 0.35
-    bribeDisableDuration: 20
-    isIllegalZone: 1
   - guardType: 0
     followsCelebrityIndex: 0
     bribeCost: 300
