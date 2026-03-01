@@ -10,27 +10,39 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: efe2b64725b98b04fb141cc66a6e2e90, type: 3}
-  m_Name: Mission_1
+  m_Name: Mission_2
   m_EditorClassIdentifier: Assembly-CSharp::MissionRequest
-  missionTitle: 'Red Carpet Arrival: Victor Cruz'
+  missionTitle: 'Handshake Photo: Victor Cruz'
   briefText: 'Get a shot of Victor Cruz at SampleScene. Client: Victor Cruz. Warning:
-    TimeLimit.'
+    DoubleGuards.'
   employer: Victor Cruz
-  jobType: Red Carpet Arrival
-  modifier: 1
+  jobType: Handshake Photo
+  modifier: 5
   levelSceneName: SampleScene
-  missionTime: 60
+  missionTime: 96
   sharedSuspicion: 1
-  minReputation: 30
+  minReputation: 42
   targetName: Victor Cruz
   targetAction: 1
-  payoutAmount: 526
-  riskLevel: 0.5
+  payoutAmount: 486
+  riskLevel: 0.7
   celebrities:
   - celebrity: {fileID: 0}
     targetAction: 1
-    payoutAmount: 526
+    payoutAmount: 486
   bodyguards:
+  - guardType: 0
+    followsCelebrityIndex: 0
+    bribeCost: 300
+    bribeSuccessChance: 0.35
+    bribeDisableDuration: 20
+    isIllegalZone: 1
+  - guardType: 0
+    followsCelebrityIndex: 0
+    bribeCost: 300
+    bribeSuccessChance: 0.35
+    bribeDisableDuration: 20
+    isIllegalZone: 1
   - guardType: 0
     followsCelebrityIndex: 0
     bribeCost: 300

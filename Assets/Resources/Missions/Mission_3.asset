@@ -10,26 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: efe2b64725b98b04fb141cc66a6e2e90, type: 3}
-  m_Name: Mission_1
+  m_Name: Mission_3
   m_EditorClassIdentifier: Assembly-CSharp::MissionRequest
-  missionTitle: 'Red Carpet Arrival: Victor Cruz'
-  briefText: 'Get a shot of Victor Cruz at SampleScene. Client: Victor Cruz. Warning:
-    TimeLimit.'
-  employer: Victor Cruz
-  jobType: Red Carpet Arrival
-  modifier: 1
+  missionTitle: 'Coffee Sip Shot: Victor Cruz'
+  briefText: 'Get a shot of Victor Cruz at SampleScene. Client: Remy Dalton. Warning:
+    Suspicious.'
+  employer: Remy Dalton
+  jobType: Coffee Sip Shot
+  modifier: 4
   levelSceneName: SampleScene
-  missionTime: 60
+  missionTime: 120
   sharedSuspicion: 1
   minReputation: 30
   targetName: Victor Cruz
-  targetAction: 1
-  payoutAmount: 526
+  targetAction: 2
+  payoutAmount: 886
   riskLevel: 0.5
   celebrities:
   - celebrity: {fileID: 0}
-    targetAction: 1
-    payoutAmount: 526
+    targetAction: 2
+    payoutAmount: 886
   bodyguards:
   - guardType: 0
     followsCelebrityIndex: 0

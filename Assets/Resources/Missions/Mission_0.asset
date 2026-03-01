@@ -12,37 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efe2b64725b98b04fb141cc66a6e2e90, type: 3}
   m_Name: Mission_0
   m_EditorClassIdentifier: Assembly-CSharp::MissionRequest
-  missionTitle: 'Poolside Candid: Victor Cruz'
-  briefText: 'Get a shot of Victor Cruz at SampleScene. Client: Marco Vega. Warning:
-    DoubleGuards.'
-  employer: Marco Vega
-  jobType: Poolside Candid
-  modifier: 5
+  missionTitle: 'Rooftop Spy Shot: Marco Vega'
+  briefText: 'Get a shot of Marco Vega at SampleScene. Client: Suki Laroche. Warning:
+    TimeLimit.'
+  employer: Suki Laroche
+  jobType: Rooftop Spy Shot
+  modifier: 1
   levelSceneName: SampleScene
-  missionTime: 96
+  missionTime: 60
   sharedSuspicion: 1
-  minReputation: 42
-  targetName: Victor Cruz
+  minReputation: 30
+  targetName: Marco Vega
   targetAction: 1
-  payoutAmount: 1170
-  riskLevel: 0.7
+  payoutAmount: 624
+  riskLevel: 0.5
   celebrities:
   - celebrity: {fileID: 0}
     targetAction: 1
-    payoutAmount: 1170
+    payoutAmount: 624
   bodyguards:
-  - guardType: 0
-    followsCelebrityIndex: 0
-    bribeCost: 300
-    bribeSuccessChance: 0.35
-    bribeDisableDuration: 20
-    isIllegalZone: 1
-  - guardType: 0
-    followsCelebrityIndex: 0
-    bribeCost: 300
-    bribeSuccessChance: 0.35
-    bribeDisableDuration: 20
-    isIllegalZone: 1
   - guardType: 0
     followsCelebrityIndex: 0
     bribeCost: 300

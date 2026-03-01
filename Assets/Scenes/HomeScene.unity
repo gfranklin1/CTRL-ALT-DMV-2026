@@ -2052,6 +2052,7 @@ MonoBehaviour:
   - Street Candid
   locations:
   - SampleScene
+  - RestaurantScene
 --- !u!4 &1619224631
 Transform:
   m_ObjectHideFlags: 0

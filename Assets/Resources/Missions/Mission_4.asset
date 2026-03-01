@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: efe2b64725b98b04fb141cc66a6e2e90, type: 3}
-  m_Name: Mission_1
+  m_Name: Mission_4
   m_EditorClassIdentifier: Assembly-CSharp::MissionRequest
-  missionTitle: 'Red Carpet Arrival: Victor Cruz'
-  briefText: 'Get a shot of Victor Cruz at SampleScene. Client: Victor Cruz. Warning:
+  missionTitle: 'Backstage Reveal: Victor Cruz'
+  briefText: 'Get a shot of Victor Cruz at SampleScene. Client: Nadia Bloom. Warning:
     TimeLimit.'
-  employer: Victor Cruz
-  jobType: Red Carpet Arrival
+  employer: Nadia Bloom
+  jobType: Backstage Reveal
   modifier: 1
   levelSceneName: SampleScene
   missionTime: 60
@@ -24,12 +24,12 @@ MonoBehaviour:
   minReputation: 30
   targetName: Victor Cruz
   targetAction: 1
-  payoutAmount: 526
+  payoutAmount: 283
   riskLevel: 0.5
   celebrities:
   - celebrity: {fileID: 0}
     targetAction: 1
-    payoutAmount: 526
+    payoutAmount: 283
   bodyguards:
   - guardType: 0
     followsCelebrityIndex: 0
