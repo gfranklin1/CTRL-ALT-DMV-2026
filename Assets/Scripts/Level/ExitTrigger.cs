@@ -11,7 +11,7 @@ public class ExitTrigger : MonoBehaviour
         if (rend != null) rend.material.color = Color.green;
 
         GameManager.OnStateChanged += OnStateChanged;
-        // Start hidden — only active during Escaping
+        // Active whenever the player can move; hidden during brief/win/fail
         OnStateChanged(GameManager.Instance?.CurrentState ?? GameState.Playing);
     }
 
@@ -19,7 +19,9 @@ public class ExitTrigger : MonoBehaviour
 
     void OnStateChanged(GameState state)
     {
-        bool active = state == GameState.Escaping;
+        bool active = state != GameState.MissionBrief &&
+                      state != GameState.Win &&
+                      state != GameState.Fail;
         if (rend != null) rend.enabled = active;
         if (col != null)  col.enabled  = active;
     }

@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections;
 
 public class PhotoCamera : MonoBehaviour
 {
@@ -62,6 +61,7 @@ public class PhotoCamera : MonoBehaviour
         CameraIsRaised = false;
 
         PhotoResult result = scorer != null ? scorer.ScoreShot(cam) : new PhotoResult { gradeLabel = "USELESS" };
+        RunData.SessionResults.Add(result);
         RunData.LastResult = result;
 
         // Render the camera's view into an off-screen texture so we can save the photo
@@ -98,15 +98,6 @@ public class PhotoCamera : MonoBehaviour
         HUD.Instance?.ShowFlash();
 
         GameManager.Instance?.TransitionTo(GameState.PhotoTaken);
-        StartCoroutine(FinishPhoto());
-    }
-
-    // Waits 2 seconds after taking a photo, then transitions to Escaping.
-    // The state check prevents double-transitions if PhotoResultUI already advanced.
-    IEnumerator FinishPhoto()
-    {
-        yield return new WaitForSeconds(2f);
-        if (GameManager.Instance?.CurrentState == GameState.PhotoTaken)
-            GameManager.Instance?.TransitionTo(GameState.Escaping);
+        // PhotoResultUI.AutoAdvance() will return to Playing after 2s
     }
 }

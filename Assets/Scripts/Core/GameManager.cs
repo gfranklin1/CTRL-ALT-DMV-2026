@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
             return;
         }
         Instance = this;
+        RunData.ClearSession();
     }
 
     void OnDestroy()
