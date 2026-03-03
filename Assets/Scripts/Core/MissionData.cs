@@ -40,6 +40,7 @@ public class MissionData : ScriptableObject
 public class CelebrityTarget
 {
     public CelebrityData celebrity;
+    public string displayName;          // used by procedurally generated missions
     public CelebrityAction targetAction = CelebrityAction.WavingAtFan;
     public int payoutAmount = 500;
 }

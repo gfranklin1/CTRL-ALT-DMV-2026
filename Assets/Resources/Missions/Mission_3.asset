@@ -12,32 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efe2b64725b98b04fb141cc66a6e2e90, type: 3}
   m_Name: Mission_3
   m_EditorClassIdentifier: Assembly-CSharp::MissionRequest
-  missionTitle: 'Coffee Sip Shot: Victor Cruz'
-  briefText: 'Get a shot of Victor Cruz at SampleScene. Client: Remy Dalton. Warning:
-    Suspicious.'
-  employer: Remy Dalton
-  jobType: Coffee Sip Shot
-  modifier: 4
-  levelSceneName: SampleScene
-  missionTime: 120
+  missionTitle: 'Red Carpet Arrival: Suki Laroche'
+  briefText: 'Get a shot of Suki Laroche at RestaurantScene. Client: Victor Cruz.'
+  employer: Victor Cruz
+  jobType: Red Carpet Arrival
+  modifier: 0
+  levelSceneName: RestaurantScene
+  missionTime: 144
   sharedSuspicion: 1
-  minReputation: 30
-  targetName: Victor Cruz
-  targetAction: 2
-  payoutAmount: 886
-  riskLevel: 0.5
+  minReputation: 18
+  targetName: Suki Laroche
+  targetAction: 1
+  payoutAmount: 526
+  riskLevel: 0.3
   celebrities:
   - celebrity: {fileID: 0}
-    targetAction: 2
-    payoutAmount: 886
+    displayName: Suki Laroche
+    targetAction: 1
+    payoutAmount: 526
   bodyguards:
-  - guardType: 0
-    followsCelebrityIndex: 0
-    bribeCost: 300
-    bribeSuccessChance: 0.35
-    bribeDisableDuration: 20
-    isIllegalZone: 1
-  - guardType: 0
+  - guardType: 1
     followsCelebrityIndex: 0
     bribeCost: 300
     bribeSuccessChance: 0.35

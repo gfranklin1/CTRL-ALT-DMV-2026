@@ -12,26 +12,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efe2b64725b98b04fb141cc66a6e2e90, type: 3}
   m_Name: Mission_1
   m_EditorClassIdentifier: Assembly-CSharp::MissionRequest
-  missionTitle: 'Red Carpet Arrival: Victor Cruz'
-  briefText: 'Get a shot of Victor Cruz at SampleScene. Client: Victor Cruz. Warning:
-    TimeLimit.'
-  employer: Victor Cruz
-  jobType: Red Carpet Arrival
-  modifier: 1
+  missionTitle: 'Poolside Candid: Alexis Stone + Nadia Bloom'
+  briefText: 'Get a shot of Alexis Stone + Nadia Bloom at SampleScene. Client: Marco
+    Vega. Warning: MultipleCelebrities.'
+  employer: Marco Vega
+  jobType: Poolside Candid
+  modifier: 2
   levelSceneName: SampleScene
-  missionTime: 60
+  missionTime: 120
   sharedSuspicion: 1
   minReputation: 30
-  targetName: Victor Cruz
+  targetName: Alexis Stone + Nadia Bloom
   targetAction: 1
-  payoutAmount: 526
+  payoutAmount: 1116
   riskLevel: 0.5
   celebrities:
   - celebrity: {fileID: 0}
+    displayName: Alexis Stone
     targetAction: 1
-    payoutAmount: 526
+    payoutAmount: 1116
+  - celebrity: {fileID: 0}
+    displayName: Nadia Bloom
+    targetAction: 2
+    payoutAmount: 893
   bodyguards:
-  - guardType: 0
+  - guardType: 1
     followsCelebrityIndex: 0
     bribeCost: 300
     bribeSuccessChance: 0.35

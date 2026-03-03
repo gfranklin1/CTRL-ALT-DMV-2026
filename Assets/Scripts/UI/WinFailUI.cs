@@ -64,6 +64,8 @@ public class WinFailUI : MonoBehaviour
             RunData.ChangeReputation(RunData.RepDeltaForGrade(g));
 
         RunData.AddPayout(RunData.TotalSessionPayout);
+        RunData.MissionsCompleted++;
+        MissionRequestManager.Instance?.GenerateXMissions(5);
         RunData.Save();
         SceneLoader.Instance?.LoadHome();
     }
@@ -71,6 +73,8 @@ public class WinFailUI : MonoBehaviour
     void Retreat()
     {
         RunData.ChangeReputation(-5);
+        RunData.MissionsCompleted++;
+        MissionRequestManager.Instance?.GenerateXMissions(5);
         RunData.Save();
         SceneLoader.Instance?.LoadHome();
     }

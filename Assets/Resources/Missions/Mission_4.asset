@@ -12,34 +12,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efe2b64725b98b04fb141cc66a6e2e90, type: 3}
   m_Name: Mission_4
   m_EditorClassIdentifier: Assembly-CSharp::MissionRequest
-  missionTitle: 'Backstage Reveal: Victor Cruz'
-  briefText: 'Get a shot of Victor Cruz at SampleScene. Client: Nadia Bloom. Warning:
-    TimeLimit.'
+  missionTitle: 'Red Carpet Arrival: Marco Vega'
+  briefText: 'Get a shot of Marco Vega at RestaurantScene. Client: Nadia Bloom. Warning:
+    NoBribes.'
   employer: Nadia Bloom
-  jobType: Backstage Reveal
-  modifier: 1
-  levelSceneName: SampleScene
-  missionTime: 60
+  jobType: Red Carpet Arrival
+  modifier: 3
+  levelSceneName: RestaurantScene
+  missionTime: 108
   sharedSuspicion: 1
-  minReputation: 30
-  targetName: Victor Cruz
+  minReputation: 36
+  targetName: Marco Vega
   targetAction: 1
-  payoutAmount: 283
-  riskLevel: 0.5
+  payoutAmount: 698
+  riskLevel: 0.6
   celebrities:
   - celebrity: {fileID: 0}
+    displayName: Marco Vega
     targetAction: 1
-    payoutAmount: 283
+    payoutAmount: 698
   bodyguards:
-  - guardType: 0
+  - guardType: 1
     followsCelebrityIndex: 0
     bribeCost: 300
-    bribeSuccessChance: 0.35
+    bribeSuccessChance: 0
     bribeDisableDuration: 20
     isIllegalZone: 1
   - guardType: 0
     followsCelebrityIndex: 0
     bribeCost: 300
-    bribeSuccessChance: 0.35
+    bribeSuccessChance: 0
     bribeDisableDuration: 20
     isIllegalZone: 1

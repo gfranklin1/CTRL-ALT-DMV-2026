@@ -39,26 +39,13 @@ public class PhotoScorer : MonoBehaviour
 
         result.celebName = celebrity.displayName;
 
-        // 2. Line-of-sight check — only blocked by geometry, not the celebrity's own collider
-        Vector3 dir = (celebrity.transform.position - cam.transform.position).normalized;
         float dist = Vector3.Distance(cam.transform.position, celebrity.transform.position);
-        if (Physics.Raycast(cam.transform.position, dir, out RaycastHit losHit, dist))
-        {
-            bool hitSelf = losHit.transform == celebrity.transform ||
-                           losHit.transform.IsChildOf(celebrity.transform);
-            if (!hitSelf)
-            {
-                result.gradeLabel = "USELESS";
-                Debug.Log($"[PhotoScorer] Line of sight to {celebrity.displayName} blocked by: {losHit.collider.name}");
-                return result;
-            }
-        }
 
-        // 3. Target action match — uses per-celebrity targetAction
+        // 2. Target action match — uses per-celebrity targetAction
         result.targetActionMatch = celebrity.CurrentAction != CelebrityAction.None &&
                                    celebrity.CurrentAction == celebrity.targetAction;
 
-        // 4. Distance score (ideal 3–8 m)
+        // 3. Distance score (ideal 3–8 m)
         if (dist >= 3f && dist <= 8f)
             result.distanceScore = 100f;
         else if (dist < 3f)
@@ -67,7 +54,7 @@ public class PhotoScorer : MonoBehaviour
             result.distanceScore = Mathf.Lerp(100f, 0f, Mathf.InverseLerp(8f, 20f, dist));
         result.distanceScore = Mathf.Clamp(result.distanceScore, 0f, 100f);
 
-        // 5. Center-of-frame score
+        // 4. Center-of-frame score
         float cx = Mathf.Abs(vp.x - 0.5f) * 2f;
         float cy = Mathf.Abs(vp.y - 0.5f) * 2f;
         float centerDist = Mathf.Sqrt(cx * cx + cy * cy);

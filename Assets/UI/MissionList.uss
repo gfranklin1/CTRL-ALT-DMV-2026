@@ -1,0 +1,6 @@
+/* Applied to the ListView wrapper of each item when selected by ComputerInteraction */
+.unity-list-view__item--selected #list-entry {
+    background-color: rgba(30, 120, 220, 0.85);
+    border-color: rgba(200, 230, 255, 0.9);
+    border-width: 2px;
+}

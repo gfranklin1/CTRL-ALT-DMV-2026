@@ -49,7 +49,9 @@ public class CelebrityController : MonoBehaviour
 
     public void Initialize(CelebrityTarget target, WaypointPath path)
     {
-        displayName  = target.celebrity?.displayName ?? "Unknown";
+        displayName  = !string.IsNullOrEmpty(target.displayName)
+                       ? target.displayName
+                       : target.celebrity?.displayName ?? "Unknown";
         targetAction = target.targetAction;
         payoutAmount = target.payoutAmount;
         waypointPath = path;

@@ -12,26 +12,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efe2b64725b98b04fb141cc66a6e2e90, type: 3}
   m_Name: Mission_0
   m_EditorClassIdentifier: Assembly-CSharp::MissionRequest
-  missionTitle: 'Rooftop Spy Shot: Marco Vega'
-  briefText: 'Get a shot of Marco Vega at SampleScene. Client: Suki Laroche. Warning:
-    TimeLimit.'
+  missionTitle: 'Poolside Candid: Nadia Bloom'
+  briefText: 'Get a shot of Nadia Bloom at RestaurantScene. Client: Suki Laroche.
+    Warning: TimeLimit.'
   employer: Suki Laroche
-  jobType: Rooftop Spy Shot
+  jobType: Poolside Candid
   modifier: 1
-  levelSceneName: SampleScene
+  levelSceneName: RestaurantScene
   missionTime: 60
   sharedSuspicion: 1
   minReputation: 30
-  targetName: Marco Vega
+  targetName: Nadia Bloom
   targetAction: 1
-  payoutAmount: 624
+  payoutAmount: 666
   riskLevel: 0.5
   celebrities:
   - celebrity: {fileID: 0}
+    displayName: Nadia Bloom
     targetAction: 1
-    payoutAmount: 624
+    payoutAmount: 666
   bodyguards:
-  - guardType: 0
+  - guardType: 1
     followsCelebrityIndex: 0
     bribeCost: 300
     bribeSuccessChance: 0.35

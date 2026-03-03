@@ -4,6 +4,7 @@ using UnityEngine;
 public static class RunData
 {
     public static int TotalEarnings;
+    public static int MissionsCompleted;
     public static PhotoResult LastResult;
     public static string LastMissionTitle;
     public static int Reputation = 50;
@@ -78,21 +79,25 @@ public static class RunData
     public static void Save()
     {
         PlayerPrefs.SetInt("TotalEarnings", TotalEarnings);
+        PlayerPrefs.SetInt("MissionsCompleted", MissionsCompleted);
         PlayerPrefs.SetInt("Reputation", Reputation);
         PlayerPrefs.Save();
     }
 
     public static void Load()
     {
-        TotalEarnings = PlayerPrefs.GetInt("TotalEarnings", 0);
-        Reputation = PlayerPrefs.GetInt("Reputation", 50);
+        TotalEarnings      = PlayerPrefs.GetInt("TotalEarnings", 0);
+        MissionsCompleted  = PlayerPrefs.GetInt("MissionsCompleted", 0);
+        Reputation         = PlayerPrefs.GetInt("Reputation", 50);
     }
 
     public static void Reset()
     {
-        TotalEarnings = 0;
-        Reputation    = 50;
+        TotalEarnings     = 0;
+        MissionsCompleted = 0;
+        Reputation        = 50;
         PlayerPrefs.DeleteKey("TotalEarnings");
+        PlayerPrefs.DeleteKey("MissionsCompleted");
         PlayerPrefs.DeleteKey("Reputation");
         PlayerPrefs.Save();
     }

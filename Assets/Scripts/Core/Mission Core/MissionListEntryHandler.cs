@@ -69,19 +69,10 @@ public class MissionListEntryHandler
     {
         missionList.makeItem = () =>
         {
-            // Instantiate the UXML template for the entry
             var newListEntry = m_ListEntryTemplate.Instantiate();
-
-            // Instantiate a controller for the data
             var newListEntryLogic = new MissionListEntry();
-
-            // Assign the controller script to the visual element
             newListEntry.userData = newListEntryLogic;
-
-            // Initialize the controller script
             newListEntryLogic.SetButtonElement(newListEntry);
-
-            // Return the root of the instantiated visual tree
             return newListEntry;
         };
 
@@ -91,20 +82,14 @@ public class MissionListEntryHandler
             (item.userData as MissionListEntry)?.SetMissionData(allMissions[index]);
         };
 
-        // Set a fixed item height matching the height of the item provided in makeItem. 
-        // For dynamic height, see the virtualizationMethod property.
-        missionList.fixedItemHeight = 45;
-
         // Set the actual item's source list/array
         missionList.itemsSource = allMissions;
     }
 
     void OnMissionSelected(IEnumerable<object> selectedItems)
     {
-        // Get the currently selected item directly from the ListView
         var selectedMission = missionList.selectedItem as MissionRequest;
 
-        // Handle none-selection (Escape to deselect everything)
         if (selectedMission == null)
         {
             if (jobTypeLabel    != null) jobTypeLabel.text    = "";
@@ -115,11 +100,11 @@ public class MissionListEntryHandler
             return;
         }
 
-        // Fill in mission details (labels may be null if not present in root UXML)
         if (jobTypeLabel    != null) jobTypeLabel.text    = selectedMission.jobType;
         if (targetNameLabel != null) targetNameLabel.text = (selectedMission.celebrities?.Length ?? 1).ToString();
         if (locationLabel   != null) locationLabel.text   = selectedMission.levelSceneName;
         if (rewardLabel     != null) rewardLabel.text     = "$" + selectedMission.payoutAmount;
         if (modifierLabel   != null) modifierLabel.text   = selectedMission.modifier.ToString();
     }
+
 }

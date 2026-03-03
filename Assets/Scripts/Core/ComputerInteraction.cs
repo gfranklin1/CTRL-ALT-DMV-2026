@@ -1,35 +1,22 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
-// Attach to the physical computer GameObject in HomeScene.
-// Player walks up and presses E to open. Cursor unlocks so they can click
-// normally on the UIDocument mission list.
-// - Single-click a row to select/highlight it.
-// - Double-click a row OR press E again to deploy the selected mission.
-// - Press Escape to close without deploying.
 public class ComputerInteraction : MonoBehaviour
 {
     [SerializeField] UIDocument uiDocument;
-    [SerializeField] GameObject proximityPrompt;
-    [SerializeField] float interactRange = 4f;
+    [SerializeField] float interactRange = 3f;
+    [SerializeField] float uiTotalPx     = 1080f;  // UXML root height in pixels
+    [SerializeField] float uiTitlePx     = 100f;   // title label height
+    [SerializeField] float uiRowPx       = 100f;   // each list entry height
 
-    bool isOpen;
     Camera playerCamera;
-    PlayerController playerController;
-    CameraController cameraController;
-
-    ListView missionList;
-    MissionRequest selectedMission;
-
     InputSystem_Actions input;
+    ListView         missionList;
+    MissionRequest[] missions;
+    int hoveredIndex = -1;
 
-    void Awake()
-    {
-        input = new InputSystem_Actions();
-    }
-
+    void Awake() => input = new InputSystem_Actions();
     void OnEnable()  => input.Player.Enable();
     void OnDisable() => input.Player.Disable();
 
@@ -37,141 +24,85 @@ public class ComputerInteraction : MonoBehaviour
     {
         var playerGO = GameObject.FindGameObjectWithTag("Player");
         if (playerGO != null)
-        {
-            playerCamera     = playerGO.GetComponentInChildren<Camera>();
-            playerController = playerGO.GetComponent<PlayerController>();
-            cameraController = playerGO.GetComponentInChildren<CameraController>();
-        }
+            playerCamera = playerGO.GetComponentInChildren<Camera>();
 
-        Debug.Log($"[CI] Start — playerCamera={playerCamera}, playerController={playerController}, uiDocument={uiDocument}");
-
-        if (proximityPrompt != null) proximityPrompt.SetActive(false);
-
-        if (uiDocument != null)
-        {
-            var root = uiDocument.rootVisualElement;
-            Debug.Log($"[CI] rootVisualElement={root}, childCount={root?.childCount}");
-            root?.AddToClassList("hidden");
-        }
-        else
-        {
-            Debug.LogWarning("[CI] uiDocument is NULL — assign it in the Inspector!");
-        }
+        uiDocument?.rootVisualElement?.RemoveFromClassList("hidden");
     }
 
     void Update()
     {
-        if (isOpen)
-        {
-            if (input.Player.Interact.WasPressedThisFrame() && selectedMission != null)
-            {
-                Debug.Log($"[CI] E pressed while open — deploying {selectedMission.missionTitle}");
-                Deploy(selectedMission);
-                return;
-            }
-            if (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame)
-                Close();
-            return;
-        }
-
         if (playerCamera == null) return;
 
+        // ── lazy fetch missions & list ────────────────────────────────────────
+        if (missions == null || missions.Length == 0)
+            missions = MissionRequestManager.Instance?.GetMissions();
+
+        if (missionList == null)
+            missionList = uiDocument?.rootVisualElement?.Q<ListView>("mission-list");
+
+        // ── proximity check ───────────────────────────────────────────────────
         float dist = Vector3.Distance(transform.position, playerCamera.transform.position);
-        bool inRange = dist <= interactRange;
+        if (dist > interactRange) { SetHover(-1); return; }
 
-        if (proximityPrompt != null) proximityPrompt.SetActive(inRange);
+        // ── deploy on E or left click ─────────────────────────────────────────
+        bool deploy = input.Player.Interact.WasPressedThisFrame()
+                   || Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame;
 
-        if (inRange && input.Player.Interact.WasPressedThisFrame())
-        {
-            Debug.Log($"[CI] E pressed in range (dist={dist:F1}) — opening");
-            Open();
-        }
+        // ── Raycast from camera centre ────────────────────────────────────────
+        Ray ray = playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
+
+        bool hitComputer = Physics.Raycast(
+            ray.origin, ray.direction,
+            out RaycastHit hit, interactRange * 2f,
+            Physics.AllLayers, QueryTriggerInteraction.Ignore)
+            && hit.transform == transform;
+
+        if (!hitComputer) { SetHover(-1); return; }
+        if (missions == null || missions.Length == 0) return;
+
+        // ── Map hit Y → slot index ────────────────────────────────────────────
+        Vector3 local   = transform.InverseTransformPoint(hit.point);
+        float topLocalY = 0.5f - uiTitlePx / uiTotalPx;
+        float botLocalY = 0.5f - (uiTitlePx + missions.Length * uiRowPx) / uiTotalPx;
+        float t         = Mathf.Clamp01(Mathf.InverseLerp(topLocalY, botLocalY, local.y));
+        int   idx       = Mathf.Min(Mathf.FloorToInt(t * missions.Length), missions.Length - 1);
+
+        SetHover(idx);
+
+        if (deploy && hoveredIndex >= 0)
+            Deploy(missions[hoveredIndex]);
     }
 
-    void Open()
+    // ── Crosshair dot at screen centre ───────────────────────────────────────
+    void OnGUI()
     {
-        isOpen = true;
-        selectedMission = null;
+        float dist = playerCamera != null
+            ? Vector3.Distance(transform.position, playerCamera.transform.position)
+            : float.MaxValue;
 
-        if (proximityPrompt != null) proximityPrompt.SetActive(false);
+        if (dist > interactRange) return;
 
-        if (playerController != null) playerController.enabled = false;
-        if (cameraController != null) cameraController.enabled = false;
-
-        UnityEngine.Cursor.lockState = CursorLockMode.None;
-        UnityEngine.Cursor.visible   = true;
-
-        if (uiDocument != null)
-        {
-            var root = uiDocument.rootVisualElement;
-            root?.RemoveFromClassList("hidden");
-
-            missionList = root?.Q<ListView>("mission-list");
-            Debug.Log($"[CI] Open — root={root}, missionList={missionList}, itemsSource count={missionList?.itemsSource?.Count ?? -1}");
-
-            if (missionList != null)
-            {
-                missionList.selectionChanged += OnSelectionChanged;
-                missionList.itemsChosen += OnItemsChosen;
-                Debug.Log("[CI] Subscribed to selectionChanged and itemsChosen");
-            }
-            else
-            {
-                Debug.LogWarning("[CI] Could not find ListView named 'mission-list' in UIDocument!");
-            }
-        }
+        float cx = Screen.width  * 0.5f;
+        float cy = Screen.height * 0.5f;
+        float r  = 4f;
+        GUI.color = Color.black;
+        GUI.DrawTexture(new Rect(cx - r - 1, cy - r - 1, r * 2 + 2, r * 2 + 2), Texture2D.whiteTexture);
+        GUI.color = Color.white;
+        GUI.DrawTexture(new Rect(cx - r, cy - r, r * 2, r * 2), Texture2D.whiteTexture);
     }
 
-    void Close()
+    void SetHover(int idx)
     {
-        Debug.Log("[CI] Close");
-        isOpen = false;
-        selectedMission = null;
-
-        if (missionList != null)
-        {
-            missionList.selectionChanged -= OnSelectionChanged;
-            missionList.itemsChosen -= OnItemsChosen;
-            missionList.ClearSelection();
-            missionList = null;
-        }
-
-        if (playerController != null) playerController.enabled = true;
-        if (cameraController != null) cameraController.enabled = true;
-
-        UnityEngine.Cursor.lockState = CursorLockMode.Locked;
-        UnityEngine.Cursor.visible   = false;
-
-        if (uiDocument != null)
-            uiDocument.rootVisualElement?.AddToClassList("hidden");
-    }
-
-    void OnSelectionChanged(IEnumerable<object> items)
-    {
-        selectedMission = missionList?.selectedItem as MissionRequest;
-        Debug.Log($"[CI] OnSelectionChanged — selectedMission={selectedMission?.missionTitle ?? "null"}");
-    }
-
-    void OnItemsChosen(IEnumerable<object> items)
-    {
-        Debug.Log("[CI] OnItemsChosen fired (double-click/Enter)");
-        foreach (var item in items)
-        {
-            Debug.Log($"[CI]   item type={item?.GetType().Name}, value={item}");
-            if (item is MissionRequest mission)
-            {
-                Deploy(mission);
-                return;
-            }
-        }
-        Debug.LogWarning("[CI] OnItemsChosen — no MissionRequest found in chosen items");
+        if (idx == hoveredIndex) return;
+        hoveredIndex = idx;
+        if (missionList == null) return;
+        if (idx < 0) missionList.ClearSelection();
+        else         missionList.selectedIndex = idx;
     }
 
     void Deploy(MissionRequest mission)
     {
-        Debug.Log($"[CI] Deploy — {mission.missionTitle} → scene: {mission.levelSceneName}");
-        Debug.Log($"[CI]   SceneLoader.Instance={SceneLoader.Instance}, MissionRequestManager.Instance={MissionRequestManager.Instance}");
-        Close();
+        if (mission == null) return;
         RunData.LastMissionTitle = mission.missionTitle;
         MissionRequestManager.Instance?.SelectMission(mission);
         SceneLoader.Instance?.LoadScene(mission.levelSceneName);
